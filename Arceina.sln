@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Arceina", "Arceina.njsproj", "{486E076C-DCBB-4BC0-8A42-71187A1CE1C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{486E076C-DCBB-4BC0-8A42-71187A1CE1C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486E076C-DCBB-4BC0-8A42-71187A1CE1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486E076C-DCBB-4BC0-8A42-71187A1CE1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486E076C-DCBB-4BC0-8A42-71187A1CE1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {39595A70-A009-4CE4-B1BB-2EAEED64ED45}
+	EndGlobalSection
+EndGlobal
