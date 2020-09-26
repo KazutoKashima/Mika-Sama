@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+//
 const { createCanvas } = require('canvas');
 
 module.exports = class CanvasUtil {
@@ -227,7 +227,7 @@ module.exports = class CanvasUtil {
 		const y = heightOffest + ((maxHeight / 2) - (height / 2));
 		return { x, y, width, height };
 	}
-=======
+
 const { createCanvas } = require('canvas');
 
 module.exports = class CanvasUtil {
@@ -456,5 +456,4 @@ module.exports = class CanvasUtil {
 		const y = heightOffest + ((maxHeight / 2) - (height / 2));
 		return { x, y, width, height };
 	}
->>>>>>> 911471a31e69d42a8e7715c4659360a597d8e9b8
 };
