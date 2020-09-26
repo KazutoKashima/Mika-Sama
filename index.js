@@ -1,4 +1,4 @@
-//<<<<<<< HEAD
+<<<<<<< HEAD
 //'use strict';
 require('dotenv').config();
 const ytdl = require("ytdl-core");
@@ -349,6 +349,7 @@ client.on('guildMemberRemove', member => {
 	}
 });
 
+=======
 //'use strict';
 require('dotenv').config();
 const ytdl = require("ytdl-core");
@@ -698,4 +699,6 @@ client.on('guildMemberRemove', member => {
 		return;
 	}
 });
+
+>>>>>>> 911471a31e69d42a8e7715c4659360a597d8e9b8
 client.login(TOKEN);
