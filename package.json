@@ -8,7 +8,8 @@
     "name": "Kazuto#2528"
   },
   "engines": {
-    "node": "14.1.0"
+    "node": "14.1.0",
+    "npm": "6.14.7",
   },
   "scripts": {
     "start": "node index.js"
