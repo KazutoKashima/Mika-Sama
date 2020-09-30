@@ -127,7 +127,7 @@ client.on('message', async msg => {
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 			msg.channel.send("No I'm not!").then(msg => {
 			
-				if (msg.content === `Yes you are` && newMsg.author.id === owner) {
+				if (msg.content === `Yes you are` && msg.author.id === owner) {
 						msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
 				} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
 					newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`)

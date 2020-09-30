@@ -8,7 +8,7 @@ module.exports = class unflipCommand extends Command {
 			group: 'auto',
 			memberName: 'dysfunctional',
 			description: 'I\'m not dysfunctional!',
-			patterns: [/^m+i+k+a+ y+o+u+r+e+ d+y+s+f+u+n+c+t+i+o+n+a+l+$/i]
+			patterns: [/^m+i+k+a+ y+o+u+'+r+e+ d+y+s+f+u+n+c+t+i+o+n+a+l+$/i]
 		});
 	}
 	generateText() {
