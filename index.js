@@ -125,17 +125,17 @@ client.on('message', async msg => {
 		
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
-			msg.channel.send("No I'm not!")
+			msg.channel.send("No I'm not!").then(msg => {
 			
-			if (msg.content === `Yes you are` && newMsg.author.id === owner) {
-					msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
-			} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
-				newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`).then(rMsg => {
+				if (msg.content === `Yes you are` && newMsg.author.id === owner) {
+						msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
+				} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
+					newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`)
 					if(rMsg.content.toLowerCase() === "Yep") {
 						rMsg.channel.send("I'm sad now... :cry:");
 					}
-				});
-			}
+				}
+			})
 		}
 
 		//  music stuff
