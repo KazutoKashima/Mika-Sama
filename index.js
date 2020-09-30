@@ -4,6 +4,7 @@ require('dotenv').config();
 const ytdl = require("ytdl-core");
 const ffmpeg = require("ffmpeg-static");
 const sqlite = require('sqlite');
+const db = require('quick.db');
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
 const path = require('path');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
@@ -122,6 +123,25 @@ client.on('message', async msg => {
 		if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
 		//let args = msg.content.split(' ').slice(1); // all the args behind the command name with the prefix
 		//const cont = args.shift().toLowerCase();
+		
+		// leveling stuff
+		db.add(`messages_${message.guild.id}_${message.author.id}`, 1)
+		let messagefetch = db.fetch(`messages_${message.guild.id}_${message.author.id}`)
+		
+		let messages;
+		if (messagefetch == 25) messages = 25; // level 1
+		else if (messagefetch == 65) messages = 65; // Level 2
+		else if (messagefetch == 115) messages = 115; // Level 3
+		else if (messagefetch == 200) messages = 200; // Level 4
+		else if (messagefetch == 300) messages = 300; // Level 5
+
+		if (!isNaN(messages)) {
+			db.add(`level_${message.guild.id}_${message.author.id}`, 1)
+			let levelfetch = db.fetch(`level_${message.guild.id}_${message.author.id}`)
+			
+		let levelEmbed = MessageEmbed()
+		.setDescription(`${message.author}, You have leveled up to level ${levelfetch}`)
+		message.embed(levelEmbed);
 		
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
