@@ -1,3 +1,0 @@
-C:\Users\Phoenix\source\repos\Arceina\obj\Debug\Arceina.njsprojAssemblyReference.cache
-C:\Users\Phoenix\source\repos\Arceina\obj\Debug\Arceina.njsproj.CoreCompileInputs.cache
-C:\Users\Phoenix\source\repos\Arceina\bin\Microsoft.NodejsTools.WebRole.dll
