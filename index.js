@@ -138,7 +138,7 @@ client.on('message', async msg => {
 		if (!isNaN(messages)) {
 			db.add(`level_${message.guild.id}_${message.author.id}`, 1)
 			let levelfetch = db.fetch(`level_${message.guild.id}_${message.author.id}`)
-			
+		}
 		let levelEmbed = MessageEmbed()
 		.setDescription(`${message.author}, You have leveled up to level ${levelfetch}`)
 		message.embed(levelEmbed);
