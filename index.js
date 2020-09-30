@@ -156,7 +156,7 @@ client.on('message', async msg => {
 			return;
 		}
 	} catch(error) {
-		console.log(err.stack);
+		console.log(error.stack);
 	}
 });
 
