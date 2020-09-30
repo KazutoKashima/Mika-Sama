@@ -155,6 +155,8 @@ client.on('message', async msg => {
 			stop(msg, serverQueue);
 			return;
 		}
+	} catch(error) {
+		console.log(err.stack);
 	}
 });
 
