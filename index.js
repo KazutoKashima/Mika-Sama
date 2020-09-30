@@ -115,17 +115,18 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-	const hasText = Boolean(msg.content);
-	const hasImage = msg.attachments.size !== 0;
-	const hasEmbed = msg.embeds.length !== 0;
-	if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
-	//let args = msg.content.split(' ').slice(1); // all the args behind the command name with the prefix
-	//const cont = args.shift().toLowerCase();
-	
-	// Mika trynna defend herself
-	if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
-		try {
+	try {
+		const hasText = Boolean(msg.content);
+		const hasImage = msg.attachments.size !== 0;
+		const hasEmbed = msg.embeds.length !== 0;
+		if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
+		//let args = msg.content.split(' ').slice(1); // all the args behind the command name with the prefix
+		//const cont = args.shift().toLowerCase();
+		
+		// Mika trynna defend herself
+		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 			msg.channel.send("No I'm not!")
+			
 			if (msg.content === `Yes you are` && newMsg.author.id === owner) {
 					msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
 			} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
@@ -135,16 +136,11 @@ client.on('message', async msg => {
 					}
 				});
 			}
-		});
-		} catch (error) {
-			console.error(error.stack);
 		}
-	}
 
-	//  music stuff
-	const serverQueue = queue.get(msg.guild.id);
+		//  music stuff
+		const serverQueue = queue.get(msg.guild.id);
 
-	try { 
 		if (msg.content.startsWith(`${PREFIX}play`)) {
 			execute(msg, serverQueue);
 			return;
@@ -159,10 +155,6 @@ client.on('message', async msg => {
 			stop(msg, serverQueue);
 			return;
 		}
-	}
-	catch (error) {
-		console.error(error.stack);
-		msg.channel.send("Sorry but there was an error!")
 	}
 });
 
