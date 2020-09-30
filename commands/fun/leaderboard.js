@@ -8,7 +8,7 @@ module.exports = class LeaderboardCommand extends Command {
 			name: "leaderboard",
 			aliases: "leader",
 			guildOnly: true,
-			group: "fun".
+			group: "fun",
 			memberName: "leaderboard",
 		})
 	}
