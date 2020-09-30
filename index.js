@@ -125,22 +125,22 @@ client.on('message', async msg => {
 	// Mika trynna defend herself
 	if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 		try {
-			msg.channel.send("No I'm not!").then(newMsg => {
-				if (newMsg.content === `Yes you are` && newMsg.author.id === owner) {
-					newMsg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
-				} else if (newMsg.content === `Yes you are` && newMsg.author.id !== owner) {
-					newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`).then(rMsg => {
-						if(rMsg.content.toLowerCase() === "Yep") {
-							rMsg.channel.send("I'm sad now... :cry:");
-						}
-					});
-				}
-			});
+			msg.channel.send("No I'm not!")
+			if (msg.content === `Yes you are` && newMsg.author.id === owner) {
+					msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
+			} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
+				newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`).then(rMsg => {
+					if(rMsg.content.toLowerCase() === "Yep") {
+						rMsg.channel.send("I'm sad now... :cry:");
+					}
+				});
+			}
+		});
 		} catch (error) {
 			console.error(error.stack);
 		}
 	}
-	
+
 	//  music stuff
 	const serverQueue = queue.get(msg.guild.id);
 
