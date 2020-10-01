@@ -19,7 +19,7 @@ module.exports = class LeaderboardCommand extends Command {
 		let arg = args.join(' ')
 		
 		if (!args[0]) {
-			let level = db.startsWith(`level_${message.guild.id}`, { sort: '.data'})
+			let level = db.get(`level_${message.guild.id}`, { sort: '.data'})
 			let content = "";
 
 			for (let i = 0; i < level.length; i++) {
