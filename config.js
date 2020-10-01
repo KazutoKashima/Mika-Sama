@@ -3,7 +3,7 @@ module.exports = {
   "mongodbUrl": "mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority", //  mongoDB connection url.
   "id": "712495341097975848", // Bot ID
   "clientSecret": "l2-PVm9b-lrtwigp-NaRC8MdFrSu-IQD", // Bot secret ID
-  "domain": "http://localhost", // website
+  "domain": " https://mika-sama2.herokuapp.com/", // website
   "port": 8080 // website port
 };
 
