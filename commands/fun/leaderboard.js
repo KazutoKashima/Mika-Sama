@@ -15,7 +15,7 @@ module.exports = class LeaderboardCommand extends Command {
 	}
 	
 	run(message) {
-		let args = message.content.split(' ').split(1)
+		let args = message.content.split(' ').slice(1)
 		let arg = args.join(' ')
 		
 		if(!args[0]) return message.channel.send(embed)
