@@ -1,14 +1,21 @@
-require('dotenv').config();
+// .env stuff
+require('dotenv').config(); // .env register
+const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
+
+//music stuff
 const ytdl = require("ytdl-core");
 const ffmpeg = require("ffmpeg-static");
-const sqlite = require('sqlite');
+const queue = new Map();
+
+// database stuff
 const db = require('quick.db');
 const mongoose = require('mongoose');
 const config = require('./config');
 const GuildSettings = require('./models/settings');
 const Dashboard = require('./dashboard/dashboard');
-const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
-const path = require('path');
+
+// Discord stuff
+const sqlite = require('sqlite');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
 const Client = require('./structures/Client');
 const client = new Client({
@@ -19,8 +26,11 @@ const client = new Client({
 	ws: { intents: Intents.ALL },
 	unknownCommandResponse: false,
 });
+
+// other stuff
+const path = require('path');
 const { formatNumber } = require('./util/Util');
-const queue = new Map();
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 // mongooseDB setup

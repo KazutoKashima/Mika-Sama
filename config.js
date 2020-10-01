@@ -1,8 +1,8 @@
 module.exports = {
-  "token": "NzEyNDk1MzQxMDk3OTc1ODQ4.XsSY_g.8LVnn9to1uot3wpSm_kq1N6Px9Q",
+  "token": "NzEyNDk1MzQxMDk3OTc1ODQ4.XsSY_g.8LVnn9to1uot3wpSm_kq1N6Px9Q", // bot token
   "mongodbUrl": "mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority", //  mongoDB connection url.
-  "id": "712495341097975848",
-  "clientSecret": "l2-PVm9b-lrtwigp-NaRC8MdFrSu-IQD",
+  "id": "712495341097975848", // Bot ID
+  "clientSecret": "l2-PVm9b-lrtwigp-NaRC8MdFrSu-IQD", // Bot secret ID
   "domain": "http://localhost", // website
   "port": 8080 // website port
 };
