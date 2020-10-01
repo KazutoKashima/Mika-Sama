@@ -1,6 +1,6 @@
 module.exports = {
   "token": "NzEyNDk1MzQxMDk3OTc1ODQ4.XsSY_g.8LVnn9to1uot3wpSm_kq1N6Px9Q",
-  "mongodbUrl": "mongodb+srv://cluster0.ou5bm.mongodb.net/MikaSama", //  mongoDB connection url.
+  "mongodbUrl": "mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority", //  mongoDB connection url.
   "id": "712495341097975848",
   "clientSecret": "l2-PVm9b-lrtwigp-NaRC8MdFrSu-IQD",
   "domain": "http://localhost", // website

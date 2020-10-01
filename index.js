@@ -1,5 +1,3 @@
-//
-//'use strict';
 require('dotenv').config();
 const ytdl = require("ytdl-core");
 const ffmpeg = require("ffmpeg-static");
@@ -23,14 +21,17 @@ const client = new Client({
 });
 const { formatNumber } = require('./util/Util');
 const queue = new Map();
+////////////////////////////////////////////////////////////////////////////////////////////////
 
+// mongooseDB setup
 mongoose.connect(config.mongodbUrl, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
 client.config = config;
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-// bearer stuff
+// bearer setup
 const Bearer = require('@bearer/node-agent');
 Bearer.init({
 	secretKey: 'app_8923adba94261832124741ec66bf3935344132e5994dbbfc51',
@@ -38,6 +39,7 @@ Bearer.init({
 }).then(() => {
 	console.log('Bearer initialized!\n');
 });
+////////////////////////////////////////////////////////////////////////////////////////////
 
 // client command registry
 client.registry
@@ -59,6 +61,7 @@ client.registry
 		unknownCommand: false
 	})
 	.registerCommandsIn(path.join(__dirname, 'commands'));
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 client.on('ready', () => {
 	client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
@@ -79,7 +82,9 @@ client.on('ready', () => {
 
 	Dashboard(client);
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Detecting messages recieved
 client.on('message', async msg => {
 	try {
 		const hasText = Boolean(msg.content);
@@ -115,6 +120,7 @@ client.on('message', async msg => {
 		else if (messagefetch == 200) messages = 200; // Level 4
 		else if (messagefetch == 300) messages = 300; // Level 5
 
+		// if the messages value is numerical
 		if (!isNaN(messages)) {
 			db.add(`level_${msg.guild.id}_${msg.author.id}`, 1)
 			let levelfetch = db.fetch(`level_${msg.guild.id}_${msg.author.id}`)
@@ -159,6 +165,7 @@ client.on('message', async msg => {
 		console.log(error.stack);
 	}
 });
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 // music functions
 async function execute(msg, serverQueue) {
@@ -248,23 +255,26 @@ function play(guild, song) {
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
   serverQueue.textChannel.send(`Start playing: **${song.title}**`);
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+// Detecting and handling if the client disconnects
 client.on('disconnect', event => {
 	client.logger.error(`[DISCONNECT] Disconnected with code ${event.code}`);
 	//client.exportCommandLeaderboard();
 	process.exit(0);
 });
 
+// Logging any errors or warnings that pop up
 client.on('error', err => client.logger.error(err.stack));
-
 client.on('warn', warn => client.logger.warn(warn));
 
+// Logging command usages
 client.on('commandRun', command => {
 	if (command.uses === undefined) return;
 	command.uses++;
 });
 
+// Logging and handling command errors
 client.on('commandError', (command, err) => client.logger.error(`[COMMAND:${command.name}]\n${err.stack}`));
 
 // join message
@@ -343,4 +353,5 @@ client.on('guildMemberRemove', member => {
 	}
 });
 
+// finally, log into the bot account
 client.login(TOKEN);
