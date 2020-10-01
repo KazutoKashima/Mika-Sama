@@ -125,8 +125,8 @@ client.on('message', async msg => {
 		//const cont = args.shift().toLowerCase();
 		
 		// leveling stuff
-		db.add(`messages_${message.guild.id}_${message.author.id}`, 1)
-		let messagefetch = db.fetch(`messages_${message.guild.id}_${message.author.id}`)
+		db.add(`messages_${msg.guild.id}_${msg.author.id}`, 1)
+		let messagefetch = db.fetch(`messages_${msg.guild.id}_${msg.author.id}`)
 		
 		let messages;
 		if (messagefetch == 25) messages = 25; // level 1
@@ -136,12 +136,12 @@ client.on('message', async msg => {
 		else if (messagefetch == 300) messages = 300; // Level 5
 
 		if (!isNaN(messages)) {
-			db.add(`level_${message.guild.id}_${message.author.id}`, 1)
-			let levelfetch = db.fetch(`level_${message.guild.id}_${message.author.id}`)
+			db.add(`level_${msg.guild.id}_${msg.author.id}`, 1)
+			let levelfetch = db.fetch(`level_${msg.guild.id}_${msg.author.id}`)
 		}
 		let levelEmbed = MessageEmbed()
-		.setDescription(`${message.author}, You have leveled up to level ${levelfetch}`)
-		message.embed(levelEmbed);
+		.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
+		msg.embed(levelEmbed);
 		
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {

@@ -18,9 +18,7 @@ module.exports = class LeaderboardCommand extends Command {
 		let args = message.content.split(' ').slice(1)
 		let arg = args.join(' ')
 		
-		if(!args[0]) return message.channel.send(embed)
-
-		if (args[0] == 'levels') {
+		if (!args[0]) {
 			let level = db.startsWith(`level_${message.guild.id}`, { sort: '.data'})
 			let content = "";
 
@@ -31,10 +29,11 @@ module.exports = class LeaderboardCommand extends Command {
 			
 			}
 
-			let embed = new MessageEmbed()
+			let leaderEmbed = new MessageEmbed()
 			.setDescription(`**${message.guild.name}'s Level Leaderboard**\n\n${content}`)
 			.setColor("#FFFFFF")
-			message.channel.send(embed)
+			message.embed(leaderEmbed);
 		}
+		//if(!args[0]) return message.channel.send(embed)
 	}
 }
