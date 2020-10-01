@@ -7,6 +7,7 @@ module.exports = class LeaderboardCommand extends Command {
 		super(client, {
 			name: "leaderboard",
 			aliases: ["leader"],
+			description: "Shows the guild's leaderboard",
 			guildOnly: true,
 			group: "fun",
 			memberName: "leaderboard",
