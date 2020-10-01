@@ -6,7 +6,7 @@ module.exports = class LeaderboardCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: "leaderboard",
-			aliases: "leader",
+			aliases: ["leader"],
 			guildOnly: true,
 			group: "fun",
 			memberName: "leaderboard",
