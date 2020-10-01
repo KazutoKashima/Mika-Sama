@@ -139,7 +139,7 @@ client.on('message', async msg => {
 			db.add(`level_${msg.guild.id}_${msg.author.id}`, 1)
 			let levelfetch = db.fetch(`level_${msg.guild.id}_${msg.author.id}`)
 		}
-		let levelEmbed = MessageEmbed()
+		let levelEmbed = new MessageEmbed()
 		.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
 		msg.embed(levelEmbed);
 		
