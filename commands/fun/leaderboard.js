@@ -28,7 +28,14 @@ module.exports = class LeaderboardCommand extends Command {
 				content += `${i+1}. ${user} ~ ${level[i].data}\n`
 			
 			}
-
+			
+			/**
+			//Try this at some point
+			let user = bot.users.get(level[i].ID.split('_')[2]).username
+			
+			content += `${i+1}. ${user} ~ ${level[i].data}\n}`
+			
+			**/
 			let leaderEmbed = new MessageEmbed()
 			.setDescription(`**${message.guild.name}'s Level Leaderboard**\n\n${content}`)
 			.setColor("#FFFFFF")
