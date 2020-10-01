@@ -1,8 +1,8 @@
 
 {
   "name": "Mika-sama",
-  "version": "1.5.2",
-  "description": "A multipurpose discord bot",
+  "version": "20.0.5",
+  "description": "A multipurpose discord bot with a Dashboard",
   "main": "index.js",
   "author": {
     "name": "Kazuto#2528"
@@ -14,6 +14,20 @@
   "scripts": {
     "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrAugu/discord-bot-dashboard.git"
+  },
+  "keywords": [
+    "discord.js",
+    "bot",
+    "dashboard"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrAugu/discord-bot-dashboard/issues"
+  },
+  "homepage": "https://github.com/MrAugu/discord-bot-dashboard#readme",
   "dependencies": {
     "@bearer/node-agent": "^3.3.0",
     "agentkeepalive": "^4.1.3",
@@ -31,6 +45,14 @@
     "winston": "^3.3.3",
     "xmlhttprequest": "^1.8.0",
     "ytdl-core": "^3.2.0",
-    "ffmpeg-static": "4.2.7"
+    "ffmpeg-static": "4.2.7",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "memorystore": "^1.6.2",
+    "mongoose": "^5.9.9",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.3",
+    "body-parser": "^3.0.2"
   }
 }

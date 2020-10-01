@@ -5,6 +5,10 @@ const ytdl = require("ytdl-core");
 const ffmpeg = require("ffmpeg-static");
 const sqlite = require('sqlite');
 const db = require('quick.db');
+const mongoose = require('mongoose');
+const config = require('./config');
+const GuildSettings = require('./models/settings');
+const Dashboard = require('./dashboard/dashboard');
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
 const path = require('path');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
@@ -20,22 +24,11 @@ const client = new Client({
 const { formatNumber } = require('./util/Util');
 const queue = new Map();
 
-/**
-// DBL stuff
-const DBL = require("dblapi.js");
-const dbl = new DBL('token', { webhookPort: 5000, webhookAuth: 'password' });
-dbl.webhook.on('ready', hook => {
-	console.log(`Webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
+mongoose.connect(config.mongodbUrl, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 });
-
-dbl.webhook.on('vote', vote => {
-	console.log(`User with ID ${vote.user} just voted for me!`);
-});
-
-dbl.on('posted', () => {
-	console.log("Server count posted!");
-});
-**/
+client.config = config;
 
 // bearer stuff
 const Bearer = require('@bearer/node-agent');
@@ -45,36 +38,6 @@ Bearer.init({
 }).then(() => {
 	console.log('Bearer initialized!\n');
 });
-
-// bearer setup for imgur
-var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-var album_id = 'ou2aUxp';
-var api_key = '83de32dbc0a71e1';
-var request_url = "https://api.imgur.com/3/album/" + album_id;
-function requestAlbum() {
-  var req = new XMLHttpRequest();
-  
-  req.onreadystatechange = function() { 
-     if (req.readyState == 4 && req.status == 200) {
-       processRequest(req.responseText);
-     } else {
-       console.log("Error with Imgur Request.");
-     }
-  }
-  req.open("GET", request_url, true); // true for asynchronous     
-  req.setRequestHeader('Authorization', 'Client-ID ' + api_key);
-  req.send(null);
-}
-function processRequest(response_text) {
-  if (response_text == "Not found") {
-    console.log("Imgur album not found.");
-  } else {
-    var json = JSON.parse(response_text);
-    // You got your response back!
-    // Do your thing here.
-  }
-}
-requestAlbum();
 
 // client command registry
 client.registry
@@ -99,20 +62,22 @@ client.registry
 
 client.on('ready', () => {
 	client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
-	
+
 	// Push client-related activities
 	client.activities.push(
 		{ text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
 		{ text: () => `with ${formatNumber(client.registry.commands.size)} commands`, type: 'PLAYING' },
 		{ text: () => `${formatNumber(client.channels.cache.size)} channels`, type: 'WATCHING' }
 	);
-	
+
 	// Interval to change activity every minute
 	client.setInterval(() => {
 		const activity = client.activities[Math.floor(Math.random() * client.activities.length)];
 		const text = typeof activity.text === 'function' ? activity.text() : activity.text;
 		client.user.setActivity(text, { type: activity.type });
 	}, 60000);
+
+	Dashboard(client);
 });
 
 client.on('message', async msg => {
@@ -121,13 +86,28 @@ client.on('message', async msg => {
 		const hasImage = msg.attachments.size !== 0;
 		const hasEmbed = msg.embeds.length !== 0;
 		if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
-		//let args = msg.content.split(' ').slice(1); // all the args behind the command name with the prefix
-		//const cont = args.shift().toLowerCase();
-		
+		if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
+
+		const reply = (...arguments) => msg.channel.send(...arguments);
+
+		// retriving the guild settings from the database
+		var storedSettings = await GuildSettings.findOne({ gid: msg.guild.id });
+		if (!storedSettings) {
+			// if there are no settings stored for the server, create and retrive the new ones
+			const newSettings = new GuildSettings({
+				gid: msg.guild.id
+			});
+			await newSettings.save().catch(()=>{});
+			storedSettings = await GuildSettings.findOne({ gid: msg.guild.id });
+		}
+
+		// if the message does not include the prefix stored in the db, we ignore it.
+		if (msg.content.indexOf(storedSettings.commandPrefix) !== 0) return;
+
 		// leveling stuff
 		db.add(`messages_${msg.guild.id}_${msg.author.id}`, 1)
 		let messagefetch = db.fetch(`messages_${msg.guild.id}_${msg.author.id}`)
-		
+
 		let messages;
 		if (messagefetch == 25) messages = 25; // level 1
 		else if (messagefetch == 65) messages = 65; // Level 2
@@ -142,11 +122,11 @@ client.on('message', async msg => {
 			.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
 			msg.embed(levelEmbed);
 		}
-		
+
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 			msg.channel.send("No I'm not!").then(msg => {
-			
+
 				if (msg.content === `Yes you are` && msg.author.id === owner) {
 						msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
 				} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
@@ -164,13 +144,13 @@ client.on('message', async msg => {
 		if (msg.content.startsWith(`${PREFIX}play`)) {
 			execute(msg, serverQueue);
 			return;
-		} 
-		
+		}
+
 		else if (msg.content.startsWith(`${PREFIX}skip`)) {
 			skip(msg, serverQueue);
 			return;
 		}
-		
+
 		else if (msg.content.startsWith(`${PREFIX}stop`)) {
 			stop(msg, serverQueue);
 			return;
@@ -292,7 +272,7 @@ const newUsers = [];
 
 client.on("guildMemberAdd", (member) => {
 	const guild = member.guild;
-	
+
 	welcomeGif = [
 		`https://64.media.tumblr.com/0ff48dce2689bd713c215bc6794ee479/tumblr_o328lujnMO1tydz8to1_540.gifv`,
 		`https://media.tenor.com/images/49c76a66e5e7b224283905f520b90426/tenor.gif`,
@@ -317,13 +297,13 @@ client.on("guildMemberAdd", (member) => {
 	.setImage(wGif)
 	.setTimestamp()
 	.setThumbnail(`${guild.iconURL()}`)
-	
+
 	if (guild.id ==='756031414616719430') {
 		try {
-			
+
 			if (!newUsers[guild.id]) newUsers[guild.id] = new Collection();
 			newUsers[guild.id].set(member.id, member.user);
-			
+
 			if (newUsers[guild.id].size > 1) {
 				const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
 				guild.channels.cache.find(channel => channel.id === "756046044218916884").send("Welcome our new users!\n" + userlist);
