@@ -165,15 +165,15 @@ client.on('message', async (msg, reaction, user) => {
 
 		// if the messages value is numerical
 		if (!isNaN(messages)) {
-			db.add(`level_${msg.guild.id}_${msg.author.id}`, 1)
-			let levelfetch = db.fetch(`level_${msg.guild.id}_${msg.author.id}`)
+			db.add(`level_${msg.guild.id}.${msg.author.id}`, 1)
+			let levelfetch = db.fetch(`level_${msg.guild.id}.${msg.author.id}`)
 			let levelEmbed = new MessageEmbed()
 			.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
 			msg.embed(levelEmbed);
 		}
 		
 		function NekoGame() {
-			var interval = setInterval(function () {
+			setInterval(function () {
 				let nekoGif = [ ``, `` ];
 				let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
 				let emojiList = ["🎂"];
