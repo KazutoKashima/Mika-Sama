@@ -248,11 +248,11 @@ async function NekoGame(message) {
 			.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 			.setImage(claimGif)
 			.setFooter();
-		message.channel.send(NekoEmbed)
+		return message.channel.send(NekoEmbed)
 			.then(async function(message) {
 				reactionArray[0] = await message.react(emojiList[0]);
 				setTimeout(() => {
-					message.channel.fetchMessage(message.id)
+					return message.channel.fetchMessage(message.id)
 						.then(async function(message) {
 							var reactionCountsArray = [];
 							for (var i =0; i < reactionArray.length; i++) {
@@ -279,13 +279,13 @@ async function NekoGame(message) {
 							NekoEmbed.addField("**Catcher(s):**", winnersText);
 							NekoEmbed.setFooter(`There are no more Nekos! :(`);
 							NekoEmbed.setTimestamp();
-							message.edit("", NekoEmbed);
+							return message.edit("", NekoEmbed);
 							db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
 						})
 				})
 			}).catch(console.error);
 	}, 5 * minute);
-	}
+}
 
 // music functions
 async function execute(msg, serverQueue) {
