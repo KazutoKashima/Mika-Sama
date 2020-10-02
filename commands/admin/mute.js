@@ -13,7 +13,7 @@ module.exports = class MuteCommand extends Command {
 		});
 	}
 	
-	run(message) {
+	async run(message) {
 		//!tempmute @user 1s/m/h/d
 
 		let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
