@@ -95,7 +95,7 @@ client.on('ready', () => {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Detecting messages recieved
-client.on('message', async msg => {
+client.on('message', async (msg, reaction, user) => {
 	try {
 		const hasText = Boolean(msg.content);
 		const hasImage = msg.attachments.size !== 0;
@@ -120,8 +120,8 @@ client.on('message', async msg => {
 		if (msg.content.indexOf(storedSettings.commandPrefix) !== 0) return;
 
 		// leveling stuff
-		db.add(`messages_${msg.guild.id}_${msg.author.id}`, 1)
-		let messagefetch = db.fetch(`messages_${msg.guild.id}_${msg.author.id}`)
+		db.add(`messages_${msg.guild.id}.${msg.author.id}`, 1)
+		let messagefetch = db.fetch(`messages_${msg.guild.id}.${msg.author.id}`)
 
 		let messages;
 		if (messagefetch == 25) messages = 25; // level 1

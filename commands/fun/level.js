@@ -18,8 +18,8 @@ module.exports = class LevelCommand extends Command {
 		let args = message.content.split(' ').slice(1)
 		let arg = args.join(' ');
 		
-		let messagefetch = db.fetch(`messages_${message.guild.id}_${message.author.id}`)
-		let levelfetch = db.fetch(`level_${message.guild.id}_${message.author.id}`)
+		let messagefetch = db.fetch(`messages_${message.guild.id}.${message.author.id}`)
+		let levelfetch = db.fetch(`level_${message.guild.id}.${message.author.id}`)
 		
 		if (messagefetch === null) messagefetch = '0';
 		if (levelfetch === null) levelfetch = '0';

@@ -49,7 +49,7 @@ module.exports = class helpCommand extends Command {
 			.addField("**Fun:** _Enabled_", "funfact, vote, avatar\n\"Mika you're dysfunctional\"\n")
 			.addField("**Economy:** _Enabled_", "work, deposit/bank/depos, rob")
 			.addField("**Music:** _Enabled_", "Play, Skip, Stop")
-			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail),\nPurge")
+			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail),\nPurge, Mute")
 			.setImage(gif)
 			.setFooter(`[Join my server!](https://discord.gg/FaG6rSM)\nThere's also easter eggs, try to find them!`)
 			data.push("Here's a list of all my commands:");

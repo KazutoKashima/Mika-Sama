@@ -12,7 +12,7 @@ Let me list a few!
 5. And your basic utilities!
 
 #### TO ADD:
-1. Mute 
+1. Mute ✅
 2. Interactive headpats
 3. Neko Catch game
 4. MongoDB Leveling => Current one gets reset after every update
