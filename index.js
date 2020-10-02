@@ -174,6 +174,9 @@ client.on('message', async (msg, reaction, user) => {
 			.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
 			msg.embed(levelEmbed);
 		}
+		// Start the game based off  people talking (to prevent spam and increase activity!!)!!
+		NekoGame();
+
 		
 		function NekoGame() {
 			setInterval(function () {
@@ -224,9 +227,7 @@ client.on('message', async (msg, reaction, user) => {
 					}).catch(console.error);
 			}, 5 * minute);
 		}
-		// Start the game based off  people talking (to prevent spam and increase activity!!)!!
-		NekoGame();
-
+		
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 			msg.channel.send("No I'm not!").then(msg => {
