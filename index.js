@@ -30,6 +30,9 @@ const client = new Client({
 // other stuff
 const path = require('path');
 const { formatNumber } = require('./util/Util');
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -219,7 +222,7 @@ client.on('message', async (msg, reaction, user) => {
 								})
 						})
 					}).catch(console.error);
-			}, 5*1000);
+			}, 5 * minute);
 		}
 		// Start the game based off  people talking (to prevent spam and increase activity!!)!!
 		NekoGame();
