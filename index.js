@@ -153,16 +153,16 @@ client.on('message', async msg => {
 				}
 			})
 		}
-		
+
 		// EASTER EGGS!
 		var filter = (reaction, user) => {
 			return ['😀', '🥄'].includes(reaction.emoji.name) && user.id === msg.author.id;
 		};
-		
+
 		msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
 			.then(collected => {
 				const reaction = collected.first();
-				
+
 				if (reaction.emoji.name === '😀') {
 					msg.reply('WooHooo! You just won `30` cookies!');
 					db.add(`money_${msg.guild.id}_${msg.author.id}`, 30);
@@ -170,7 +170,7 @@ client.on('message', async msg => {
 					msg.reply('Yay! You won `10` cookies!');
 					db.add(`money_${msg.guild.id}_${msg.author.id}`, 10);
 				}
-			}
+			})
 			.catch(collected => {
 				// Do nothing cause it's a secret!
 				return;
@@ -356,7 +356,7 @@ client.on("guildMemberAdd", (member) => {
 					reactionArray[0] = await message.react(emojiList[0]);
 					reactionArray[1] = await message.react(emojiList[1]);
 					reactionArray[2] = await message.react(emojiList[2]);
-					
+
 					if (time) {
 						setTimeout(() => {
 							message.channel.fetchMessage(message.id)
@@ -365,7 +365,7 @@ client.on("guildMemberAdd", (member) => {
 									for (var i = 0l i < reactionArray.length; i++) {
 										reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
 									}
-									
+
 									//find winner(s)
 									var max = -Infinity, indexMax = [];
 									for (var i=0; i < reactionCountsArray.length; ++i)
@@ -385,7 +385,7 @@ client.on("guildMemberAdd", (member) => {
 									welcomeEmbed.setFooter(`The chance is now closed!`)
 									welcomeEmbed.setTimestamp()
 									message.edit("", welcomeEmbed);
-									
+
 									db.add(`welcomeWins_${message.guild.id}_${reaction.message.author.id}`)
 									db.add(`money_${message.guild.id}_${reaction.message.author.id}`, 3000);
 								});
