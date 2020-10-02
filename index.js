@@ -97,7 +97,7 @@ function NekoTimer() {
 				.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 				.setImage(claimGif)
 				.setFooter();
-			client.message.channel.send(NekoEmbed)
+			message.channel.send(NekoEmbed)
 				.then(async function(message) {
 					reactionArray[0] = await message.react(emojiList[0]);
 					setTimeout(() => {
