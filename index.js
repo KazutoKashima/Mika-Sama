@@ -351,47 +351,28 @@ client.on("guildMemberAdd", (member) => {
 				const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
 				guild.channels.cache.find(channel => channel.id === "756046044218916884").send("Welcome our new users!\n" + userlist);
 				guild.channels.cache.find(channel => channel.id === "756046044218916884").send(welcomeEmbed)
-				.then(async function (message) {
-					var reactionArray = [];
-					reactionArray[0] = await message.react(emojiList[0]);
-					reactionArray[1] = await message.react(emojiList[1]);
-					reactionArray[2] = await message.react(emojiList[2]);
+				// EASTER EGGS!
+				var filter = (reaction, user) => {
+					return [':helloPolice:', '🥄'].includes(reaction.emoji.name) && user.id === message.author.id;
+				};
 
-					if (time) {
-						setTimeout(() => {
-							message.channel.fetchMessage(message.id)
-								.then(async function (message) {
-									var reactionCountsArray =[];
-									for (var i = 0l i < reactionArray.length; i++) {
-										reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
-									}
+				message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+					.then(collected => {
+						const reaction = collected.first();
 
-									//find winner(s)
-									var max = -Infinity, indexMax = [];
-									for (var i=0; i < reactionCountsArray.length; ++i)
-										if(reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-										else if(reactionCountsArray[i] === max) indexMax.push(i);
-									var winnersText = "";
-									if (reactionCountsArray[indexMax[0]] == 0) {
-										winnersText = "No one won!"
-									} else {
-										for (var i = 0; i < indexMax.length; i++) {
-											winnersText +=
-												emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " hunter(s)!)\n";
-										}
-									}
-									//welcomeEmbed.addField("**Winners(s):**", winnersText)
-									welcomeEmbed.addField("The following users have been awarded `3000` Cookies!", winersText)
-									welcomeEmbed.setFooter(`The chance is now closed!`)
-									welcomeEmbed.setTimestamp()
-									message.edit("", welcomeEmbed);
+						if (reaction.emoji.name === ':helloPolice') {
+							message.reply('WooHooo! You just won `300` cookies!');
+							db.add(`money_${msg.guild.id}_${msg.author.id}`, 300);
+						} else {
+							message.reply('Yay! You won `100` cookies!');
+							db.add(`money_${msg.guild.id}_${msg.author.id}`, 100);
+						}
+					})
+					.catch(collected => {
+						// Do nothing cause it's a secret!
+						return;
+					});
 
-									db.add(`welcomeWins_${message.guild.id}_${reaction.message.author.id}`)
-									db.add(`money_${message.guild.id}_${reaction.message.author.id}`, 3000);
-								});
-						}time * 60 * 1000);
-					}
-				}
 				newUsers[guild.id].clear();
 			}
 		} catch(error) {
