@@ -21,32 +21,37 @@ module.exports = class helpCommand extends Command {
 		const data = [];
 		const { commands } = message.client;
 		
+		let helpGifs = [
+			`https://64.media.tumblr.com/0ff48dce2689bd713c215bc6794ee479/tumblr_o328lujnMO1tydz8to1_540.gifv`,
+			`https://media.tenor.com/images/49c76a66e5e7b224283905f520b90426/tenor.gif`,
+			`https://thumbs.gfycat.com/FaroffEmbarrassedHerald-size_restricted.gif`,
+			`https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdL51HM-lKo2muxCB-d2WJMxKxm3FS-xU0rw&usqp=CAU`,
+			`https://i.imgur.com/rViw7vP.gif`,
+			`https://i.imgur.com/UcGioIH.gif`,
+			`https://i.imgur.com/bwuik6j.gif`,
+			`https://i.imgur.com/se1uFas.gif`,
+			`https://i.imgur.com/foSkpOV.gif`,
+			`https://i.imgur.com/FuINlu9.gif`,
+			`https://i.imgur.com/TXlp1YT.gif`,
+			`https://i.imgur.com/lgbPwfk.gif`,
+			`https://tenor.com/view/hello-happy-feet-penguin-wave-waving-gif-6103866`,
+		];
+		
+		let gif = helpGifs[Math.floor(Math.random * helpGifs.length)];
+		
 		if(!args.length) {
 			
 		let helpEmbed = new MessageEmbed()
-			/* ----------------------Old Embed----------------------
-			.setDescription("Mika's Help command, Prefix: a!")
-			.setColor('#ffffff')
-			.addField('Avatar', "Gives yours or someone else's avatar!",inline=false)
-			.addField('bot-info','gives the info on me!',inline=false)
-			.addField('server-info', 'shows the info of the server', inline=false)
-			.addField('ping', 'checks my latency!', inline=false)
-			.addField("funfact", "sends a random fact!", inline=false)
-			.addField("hug", "gives a user a hug", inline=false)
-			.addField("punch", 'punches a user', inline=false)
-			.addField("poke",'pokes a user', inline=false)
-			.addField("slap",'slaps a user', inline=false)
-			*/
-			//----------------------new embed----------------------//
-			.setTitle("Mika's Help Command, *prefix: m!*")
+			.setTitle("Mika's Help Command, *Prefix: m!*")
 			.setColor("#673ab7")
 			.addField("**Utility:** _Enabled_", "ping, server info, bot info, \nsupport invite, help")
 			.addField("**Roleplay:** _Enabled_", "Hug, Kill, Pat,\nPoke, Punch, Slap\n*More is to come!*")
-			.addField("**Fun:** _Enabled_", "funfact, vote, avatar\n\"Mika you're dysfunctional\"")
-			.addField("**Economy:** _Disabled_", "work, deposit/bank/depos, rob")
-			.addField("**Music:** _Enabled_", "Playing, Skip, Stop")
-			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report, Purge")
-			.setFooter(`Join my server with this: https://discord.gg/FaG6rSM`)
+			.addField("**Fun:** _Enabled_", "funfact, vote, avatar\n\"Mika you're dysfunctional\"\n")
+			.addField("**Economy:** _Enabled_", "work, deposit/bank/depos, rob")
+			.addField("**Music:** _Enabled_", "Play, Skip, Stop")
+			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail),\nPurge")
+			.setImage(gif)
+			.setFooter(`[Join my server!](https://discord.gg/FaG6rSM)\nThere's also easter eggs, try to find them!`)
 			data.push("Here's a list of all my commands:");
 		//data.push(`\nYou can send \`${prefix}help [command name]\` to get help on a command`);
 			

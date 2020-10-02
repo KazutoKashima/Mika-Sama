@@ -39,7 +39,7 @@ module.exports = class BanCommand extends Command {
 		}
 		catch (error) {
 			console.log(error.stack);
-			message.channel.say("Sorry but there has been error!")
+			message.say("Sorry but there has been error!")
 		}
 	}
 };

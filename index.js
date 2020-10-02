@@ -153,6 +153,28 @@ client.on('message', async msg => {
 				}
 			})
 		}
+		
+		// EASTER EGGS!
+		var filter = (reaction, user) => {
+			return ['😀', '🥄'].includes(reaction.emoji.name) && user.id === msg.author.id;
+		};
+		
+		msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+			.then(collected => {
+				const reaction = collected.first();
+				
+				if (reaction.emoji.name === '😀') {
+					msg.reply('WooHooo! You just won `30` cookies!');
+					db.add(`money_${msg.guild.id}_${msg.author.id}`, 30);
+				} else {
+					msg.reply('Yay! You won `10` cookies!');
+					db.add(`money_${msg.guild.id}_${msg.author.id}`, 10);
+				}
+			}
+			.catch(collected => {
+				// Do nothing cause it's a secret!
+				return;
+			});
 
 		//  music stuff
 		const serverQueue = queue.get(msg.guild.id);
@@ -292,7 +314,7 @@ const newUsers = [];
 
 client.on("guildMemberAdd", (member) => {
 	const guild = member.guild;
-
+	emojiList = ['👋', ':ItWasYou:', ':nom~1:'];
 	welcomeGif = [
 		`https://64.media.tumblr.com/0ff48dce2689bd713c215bc6794ee479/tumblr_o328lujnMO1tydz8to1_540.gifv`,
 		`https://media.tenor.com/images/49c76a66e5e7b224283905f520b90426/tenor.gif`,
@@ -320,6 +342,7 @@ client.on("guildMemberAdd", (member) => {
 
 	if (guild.id ==='756031414616719430') {
 		try {
+			let time = 1;
 
 			if (!newUsers[guild.id]) newUsers[guild.id] = new Collection();
 			newUsers[guild.id].set(member.id, member.user);
@@ -327,7 +350,48 @@ client.on("guildMemberAdd", (member) => {
 			if (newUsers[guild.id].size > 1) {
 				const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
 				guild.channels.cache.find(channel => channel.id === "756046044218916884").send("Welcome our new users!\n" + userlist);
-				guild.channels.cache.find(channel => channel.id === "756046044218916884").send(welcomeEmbed);
+				guild.channels.cache.find(channel => channel.id === "756046044218916884").send(welcomeEmbed)
+				.then(async function (message) {
+					var reactionArray = [];
+					reactionArray[0] = await message.react(emojiList[0]);
+					reactionArray[1] = await message.react(emojiList[1]);
+					reactionArray[2] = await message.react(emojiList[2]);
+					
+					if (time) {
+						setTimeout(() => {
+							message.channel.fetchMessage(message.id)
+								.then(async function (message) {
+									var reactionCountsArray =[];
+									for (var i = 0l i < reactionArray.length; i++) {
+										reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+									}
+									
+									//find winner(s)
+									var max = -Infinity, indexMax = [];
+									for (var i=0; i < reactionCountsArray.length; ++i)
+										if(reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
+										else if(reactionCountsArray[i] === max) indexMax.push(i);
+									var winnersText = "";
+									if (reactionCountsArray[indexMax[0]] == 0) {
+										winnersText = "No one won!"
+									} else {
+										for (var i = 0; i < indexMax.length; i++) {
+											winnersText +=
+												emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " hunter(s)!)\n";
+										}
+									}
+									//welcomeEmbed.addField("**Winners(s):**", winnersText)
+									welcomeEmbed.addField("The following users have been awarded `3000` Cookies!", winersText)
+									welcomeEmbed.setFooter(`The chance is now closed!`)
+									welcomeEmbed.setTimestamp()
+									message.edit("", welcomeEmbed);
+									
+									db.add(`welcomeWins_${message.guild.id}_${reaction.message.author.id}`)
+									db.add(`money_${message.guild.id}_${reaction.message.author.id}`, 3000);
+								});
+						}time * 60 * 1000);
+					}
+				}
 				newUsers[guild.id].clear();
 			}
 		} catch(error) {
