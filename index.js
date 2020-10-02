@@ -89,7 +89,7 @@ function NekoTimer() {
 	try{
 		var interval = setInterval(function () {
 			NekoGame()
-			.catch(console.error);
+			//.catch(console.error);
 		}, 5*1000);
 	}catch(err) {
 		console.log(err.stack);
