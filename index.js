@@ -176,57 +176,6 @@ client.on('message', async (msg, reaction, user) => {
 		}
 		// Start the game based off  people talking (to prevent spam and increase activity!!)!!
 		NekoGame();
-
-		
-		function NekoGame() {
-			setInterval(function () {
-				let nekoGif = [ ``, `` ];
-				let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
-				let emojiList = ["🎂"];
-				let reactionArray = [];
-				
-				let NekoEmbed = new MessageEmbed()
-					.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
-					.setImage(claimGif)
-					.setFooter();
-				message.channel.send(NekoEmbed)
-					.then(async function(message) {
-						reactionArray[0] = await message.react(emojiList[0]);
-						setTimeout(() => {
-							message.channel.fetchMessage(message.id)
-								.then(async function(message) {
-									var reactionCountsArray = [];
-									for (var i =0; i < reactionArray.length; i++) {
-										reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
-									}
-									
-									// find winners
-									var max = -Infinity, indexMax = [];
-									for (var i = 0; i < reactionCountsArray.length; ++i)
-										if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-										else if (reactionCountsArray[i] === max) indexMax.push(i);
-									
-									console.log(reactionCountsArray); // debugging votes
-									var winnersText = "";
-									if (reactionCountsArray[indexMax[0]] == 0) {
-										winnersText = "No one caught the Neko!"
-									} else {
-										for (var i = 0; i < indexMax.length; i++) {
-											winnersText +=
-												emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
-										}
-									}
-									
-									NekoEmbed.addField("**Catcher(s):**", winnersText);
-									NekoEmbed.setFooter(`There are no more Nekos! :(`);
-									NekoEmbed.setTimestamp();
-									message.edit("", NekoEmbed);
-									db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
-								})
-						})
-					}).catch(console.error);
-			}, 5 * minute);
-		}
 		
 		// Mika trynna defend herself
 		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
@@ -287,6 +236,56 @@ client.on('message', async (msg, reaction, user) => {
 	}
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+async function NekoGame(message) {
+	setInterval(function () {
+		let nekoGif = [ ``, `` ];
+		let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
+		let emojiList = ["🎂"];
+		let reactionArray = [];
+		
+		let NekoEmbed = new MessageEmbed()
+			.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
+			.setImage(claimGif)
+			.setFooter();
+		message.channel.send(NekoEmbed)
+			.then(async function(message) {
+				reactionArray[0] = await message.react(emojiList[0]);
+				setTimeout(() => {
+					message.channel.fetchMessage(message.id)
+						.then(async function(message) {
+							var reactionCountsArray = [];
+							for (var i =0; i < reactionArray.length; i++) {
+								reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+							}
+							
+							// find winners
+							var max = -Infinity, indexMax = [];
+							for (var i = 0; i < reactionCountsArray.length; ++i)
+								if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
+								else if (reactionCountsArray[i] === max) indexMax.push(i);
+							
+							console.log(reactionCountsArray); // debugging votes
+							var winnersText = "";
+							if (reactionCountsArray[indexMax[0]] == 0) {
+								winnersText = "No one caught the Neko!"
+							} else {
+								for (var i = 0; i < indexMax.length; i++) {
+									winnersText +=
+										emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
+								}
+							}
+							
+							NekoEmbed.addField("**Catcher(s):**", winnersText);
+							NekoEmbed.setFooter(`There are no more Nekos! :(`);
+							NekoEmbed.setTimestamp();
+							message.edit("", NekoEmbed);
+							db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
+						})
+				})
+			}).catch(console.error);
+	}, 5 * minute);
+	}
 
 // music functions
 async function execute(msg, serverQueue) {
