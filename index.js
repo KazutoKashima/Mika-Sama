@@ -73,6 +73,83 @@ client.registry
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Timer stuff
+function sendMessage() {
+	try {
+		var guild = client.guilds.get('guildID');
+		if (guild && guild.channels.get('channelID')) {
+			guild.channels.get('channelID').send("Good Morning!");
+		}
+	} catch(err) {
+		console.log(err.stack);
+	}
+}
+
+function NekoTimer() {
+	try{
+		var interval = setInterval(function () {
+			NekoGame()
+			.catch(console.error);
+		}, 5*1000);
+	}catch(err) {
+		console.log(err.stack);
+	}
+}
+
+// Neko Game
+function NekoGame() {
+	try {
+		let nekoGif = [ ``, `` ];
+		let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
+		let emojiList = ["🎂"];
+		let reactionArray = [];
+		
+		let NekoEmbed = new MessageEmbed()
+			.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
+			.setImage(claimGif)
+			.setFooter();
+		client.message.channel.send(NekoEmbed)
+			.then(async function(message) {
+				reactionArray[0] = await message.react(emojiList[0]);
+				setTimeout(() => {
+					message.channel.fetchMessage(message.id)
+						.then(async function(message) {
+							var reactionCountsArray = [];
+							for (var i =0; i < reactionArray.length; i++) {
+								reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+							}
+							
+							// find winners
+							var max = -Infinity, indexMax = [];
+							for (var i = 0; i < reactionCountsArray.length; ++i)
+								if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
+								else if (reactionCountsArray[i] === max) indexMax.push(i);
+							
+							console.log(reactionCountsArray); // debugging votes
+							var winnersText = "";
+							if (reactionCountsArray[indexMax[0]] == 0) {
+								winnersText = "No one caught the Neko!"
+							} else {
+								for (var i = 0; i < indexMax.length; i++) {
+									winnersText +=
+										emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
+								}
+							}
+							
+							NekoEmbed.addField("**Catcher(s):**", winnersText);
+							NekoEmbed.setFooter(`There are no more Nekos! :(`);
+							NekoEmbed.setTimestamp();
+							message.edit("", NekoEmbed);
+							db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
+						})
+				})
+			}).catch(console.error);
+	} catch(e) {
+		console.error(e.stack);
+	}
+}
+
+// If the client is ready
 client.on('ready', () => {
 	client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
 
@@ -89,7 +166,9 @@ client.on('ready', () => {
 		const text = typeof activity.text === 'function' ? activity.text() : activity.text;
 		client.user.setActivity(text, { type: activity.type });
 	}, 60000);
-
+	
+	// add the timer here
+	NekoTimer();
 	Dashboard(client);
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +232,8 @@ client.on('message', async (msg, reaction, user) => {
 				}
 			})
 		}
+		
+		
 
 		// EASTER EGGS!
 		var filter = (reaction, user) => {
