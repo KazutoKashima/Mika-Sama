@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 // .env stuff
 require('dotenv').config(); // .env register
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
