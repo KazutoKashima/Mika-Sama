@@ -140,8 +140,6 @@ client.on('message', async (msg, reaction, user) => {
 		if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
 		if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
 
-		const reply = (...arguments) => msg.channel.send(...arguments);
-
 		// retriving the guild settings from the database
 		var storedSettings = await GuildSettings.findOne({ gid: msg.guild.id });
 		if (!storedSettings) {
