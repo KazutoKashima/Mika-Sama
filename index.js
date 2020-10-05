@@ -171,12 +171,15 @@ client.on('message', async (msg, reaction, user) => {
 										NekoEmbed.addField("**Catcher**", reaction.author)
 										NekoEmbed.setFooter("It's been caught! Woohoo!")
 										msg.edit("", NekoEmbed);
+										db.add(`catches_${msg.guild.id}_${msg.author.id}`, 1)
 									}
 								})
 								.catch(collected => {
 									msg.channel.send("Oh no! The Neko ran away!")
 								});
+								
 						}, 10 * minute);
+						
 					} else {
 						msg.reply("Sorry but you can't start the game!\nPlease contact and Admin or Mod to start it!");
 					}
