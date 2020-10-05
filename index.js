@@ -97,41 +97,41 @@ client.on('message', async (msg, reaction, user) => {
                 if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
 				
 				var randomXP = Math.floor(Math.random() * 49) +1;
-				var hasLevelUp = await mongoEco.attributeXp(message.member.id, message.guild.id, randomXP);
+				var hasLevelUp = await mongoEco.attributeXp(msg.member.id, msg.guild.id, randomXP);
 				if (hasLevelUp) {
 					// fetch the member
 					// return false if no member entry
-					let member  = await mongoEco.fetchMember(message.member.id, message.guild.id)
-					message.channel.send(`${message.member}, congratulations! you have reached level ${member.level}! Great Job!`);
+					let member  = await mongoEco.fetchMember(msg.member.id, msg.guild.id)
+					msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
 					
 				}
 				
-				if (message.content === "m!create") {
-					let created = await mongoEco.createMember(message.member.id, message.guild.id)
+				if (msg.content === "m!create") {
+					let created = await mongoEco.createMember(msg.member.id, msg.guild.id)
 					console.log(created);
-					message.reply(`Yay! you can now start leveling!`);
+					msg.reply(`Yay! you can now start leveling!`);
 				}
 				
-				if (message.content === "m!delete") {
-					let deleted = await mongoEco.deleteMember(message.member.id, message.guild.id);
+				if (msg.content === "m!delete") {
+					let deleted = await mongoEco.deleteMember(msg.member.id, msg.guild.id);
 					console.log(deleted);
-					message.reply(`Aww, Ok, removing you from the database...done... :(`);
+					msg.reply(`Aww, Ok, removing you from the database...done... :(`);
 					
 				}
 				
-				if (message.content === "m!level") {
-					let mention = message.mentions.members.first() ? message.mentions.members.first() : message.member;
-					let member = await mongoeconomy.fetchMember(mention.id, message.guild.id);
-					if (!member) return message.channel.send("You haven't earned any xp or level...")
-					message.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
+				if (msg.content === "m!level") {
+					let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
+					let member = await mongoeconomy.fetchMember(mention.id, msg.guild.id);
+					if (!member) return msg.channel.send("You haven't earned any xp or level...")
+					msg.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
 				}
 				
-				if (message.content === prefix + "leaderboard") {
-					let raw = await mongoeconomy.getLeaderBoard(message.guild.id, 10);
+				if (msg.content === prefix + "leaderboard") {
+					let raw = await mongoeconomy.getLeaderBoard(msg.guild.id, 10);
 					let data = await mongoeconomy.convertLeaderBoard(bot, raw);
 
 					let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
-					message.channel.send(leaderboard)
+					msg.channel.send(leaderboard)
 				}
 				
                 // Start the game based off  people talking (to prevent spam and increase activity!!)!!
@@ -146,15 +146,15 @@ client.on('message', async (msg, reaction, user) => {
 									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 									.setImage(claimGif)
 									.setFooter();
-							return message.channel.send(NekoEmbed)
-									.then(async function(message) {
-											reactionArray[0] = await message.react(emojiList[0]);
+							return msg.channel.send(NekoEmbed)
+									.then(async function(msg) {
+											reactionArray[0] = await msg.react(emojiList[0]);
 											setTimeout(() => {
-													return message.channel.fetchMessage(message.id)
-															.then(async function(message) {
+													return msg.channel.fetchMessage(msg.id)
+															.then(async function(msg) {
 																	var reactionCountsArray = [];
 																	for (var i =0; i < reactionArray.length; i++) {
-																			reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+																			reactionCountsArray[i] = msg.reactions.get(emojiList[i]).count-1;
 																	}
 
 																	// find winners
@@ -177,7 +177,7 @@ client.on('message', async (msg, reaction, user) => {
 																	NekoEmbed.addField("**Catcher(s):**", winnersText);
 																	NekoEmbed.setFooter(`There are no more Nekos! :(`);
 																	NekoEmbed.setTimestamp();
-																	return message.edit("", NekoEmbed);
+																	return msg.edit("", NekoEmbed);
 																	db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
 															})
 											})
