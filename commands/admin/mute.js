@@ -15,7 +15,8 @@ module.exports = class MuteCommand extends Command {
 	
 	async run(message) {
 		//!tempmute @user 1s/m/h/d
-
+		args = message.content.split(' ').slice(2)
+		arg = args.join(' ');
 		let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 		if(!tomute) return message.reply("Couldn't find user.");
 		if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("Can't mute them!");
@@ -39,7 +40,7 @@ module.exports = class MuteCommand extends Command {
 			}
 		}
 		//end of create role
-		let mutetime = args[1];
+		let mutetime = arg;
 		if(!mutetime) return message.reply("You didn't specify a time!");
 
 		await(tomute.addRole(muterole.id));
