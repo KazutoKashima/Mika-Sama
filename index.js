@@ -136,6 +136,7 @@ client.on('message', async (msg, reaction, user) => {
 				
                 // Start the game based off  people talking (to prevent spam and increase activity!!)!!
                 if (msg.content === "m!NekoGame") {
+					msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
 					var interval = setInterval(function () {
 							let nekoGif = [ ``, `` ];
 							let claimGif = nekoGif[Math.floor(Math.random() * nekoGif.length)];
@@ -146,11 +147,11 @@ client.on('message', async (msg, reaction, user) => {
 									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 									.setImage(claimGif)
 									.setFooter();
-							return msg.channel.send(NekoEmbed)
+							msg.channel.send(NekoEmbed)
 									.then(async function(msg) {
 											reactionArray[0] = await msg.react(emojiList[0]);
 											setTimeout(() => {
-													return msg.channel.fetchMessage(msg.id)
+													msg.channel.fetchMessage(msg.id)
 															.then(async function(msg) {
 																	var reactionCountsArray = [];
 																	for (var i =0; i < reactionArray.length; i++) {
@@ -177,7 +178,7 @@ client.on('message', async (msg, reaction, user) => {
 																	NekoEmbed.addField("**Catcher(s):**", winnersText);
 																	NekoEmbed.setFooter(`There are no more Nekos! :(`);
 																	NekoEmbed.setTimestamp();
-																	return msg.edit("", NekoEmbed);
+																	msg.edit("", NekoEmbed);
 																	db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
 															})
 											})
