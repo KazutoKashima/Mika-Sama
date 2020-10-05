@@ -159,13 +159,16 @@ client.on('message', async (msg, reaction, user) => {
 									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 									.setImage(claimGif)
 									.setFooter();
-							msg.channel.send(NekoEmbed).then(() => msg.react("🎂"));
+							msg.channel.send(NekoEmbed)
+								.then(async m => {
+									await msg.react("🎂"));
+								})
 							
 							let filter = (reaction, user) => {
 								return ['🎂'].includes(reaction.emoji.name) && user.id === msg.author.id
 							}
 							
-							msg.awaitReactions(filter, { max: 1, time: 10*second, errors: ['time'] })
+							msg.awaitReactions(filter, { max: 1, time: 10*minute, errors: ['time'] })
 								.then(collected => {
 									const reaction = collected.first();
 
