@@ -126,7 +126,7 @@ client.on('message', async (msg, reaction, user) => {
 					msg.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
 				}
 				
-				if (msg.content === prefix + "leaderboard") {
+				if (msg.content === "m!leaderboard" || msg.content === "m!leader") {
 					let raw = await mongoeconomy.getLeaderBoard(msg.guild.id, 10);
 					let data = await mongoeconomy.convertLeaderBoard(bot, raw);
 
