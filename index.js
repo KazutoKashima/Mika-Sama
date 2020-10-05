@@ -151,7 +151,7 @@ client.on('message', async (msg, reaction, user) => {
 									.then(async function(msg) {
 											reactionArray[0] = await msg.react(emojiList[0]);
 											setTimeout(() => {
-													return msg.channel.fetchMessage(msg.id)
+													return msg.channel.messages.fetch(msg.id)
 															.then(async function(msg) {
 																	var reactionCountsArray = [];
 																	for (var i =0; i < reactionArray.length; i++) {
