@@ -1,3 +1,4 @@
+'use strict';
 // .env stuff
 require('dotenv').config(); // .env register
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
@@ -9,273 +10,215 @@ const queue = new Map();
 
 // database stuff
 const db = require('quick.db');
-const mongoose = require('mongoose');
-const config = require('./config');
-const GuildSettings = require('./models/settings');
-const Dashboard = require('./dashboard/dashboard');
+const mongoEco = require('discord-mongodb-economy');
 
 // Discord stuff
 const sqlite = require('sqlite');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
 const Client = require('./structures/Client');
 const client = new Client({
-	commandPrefix: PREFIX,
-	owner: OWNERS.split(','),
-	invite: INVITE,
-	disableMentions: 'everyone',
-	ws: { intents: Intents.ALL },
-	unknownCommandResponse: false,
+        commandPrefix: PREFIX,
+        owner: OWNERS.split(','),
+        invite: INVITE,
+        disableMentions: 'everyone',
+        ws: { intents: Intents.ALL },
+        unknownCommandResponse: false,
 });
 
 // other stuff
 const path = require('path');
 const { formatNumber } = require('./util/Util');
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-// mongooseDB setup
-mongoose.connect(config.mongodbUrl, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-});
-client.config = config;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // bearer setup
 const Bearer = require('@bearer/node-agent');
 Bearer.init({
-	secretKey: 'app_8923adba94261832124741ec66bf3935344132e5994dbbfc51',
-  	stripSensitiveData: true,
+        secretKey: 'app_8923adba94261832124741ec66bf3935344132e5994dbbfc51',
+        stripSensitiveData: true,
 }).then(() => {
-	console.log('Bearer initialized!\n');
+        console.log('Bearer initialized!\n');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // client command registry
 client.registry
-	.registerDefaultTypes()
-	.registerGroups([
-		['roleplay', 'Roleplay'],
-		['utils', 'Utils'],
-		['economy', 'Economy'],
-		['admin', 'Admin'],
-		['fun', 'Fun'],
-		["auto", "Auto"],
-	])
-	.registerDefaultGroups()
-	.registerDefaultCommands({
-		ping: true,
-		reload: true,
-		prefix: false,
-		help: false,
-		unknownCommand: false
-	})
-	.registerCommandsIn(path.join(__dirname, 'commands'));
+        .registerDefaultTypes()
+        .registerGroups([
+                ['roleplay', 'Roleplay'],
+                ['utils', 'Utils'],
+                ['economy', 'Economy'],
+                ['admin', 'Admin'],
+                ['fun', 'Fun'],
+                ["auto", "Auto"],
+        ])
+        .registerDefaultGroups()
+        .registerDefaultCommands({
+                ping: true,
+                reload: true,
+                prefix: false,
+                help: false,
+                unknownCommand: false
+        })
+        .registerCommandsIn(path.join(__dirname, 'commands'));
 ////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Timer stuff
-function sendMessage() {
-	try {
-		var guild = client.guilds.get('guildID');
-		if (guild && guild.channels.get('channelID')) {
-			guild.channels.get('channelID').send("Good Morning!");
-		}
-	} catch(err) {
-		console.log(err.stack);
-	}
-}
-
-function NekoTimer() {
-	try{
-		var interval = setInterval(function () {
-			let nekoGif = [ ``, `` ];
-			let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
-			let emojiList = ["🎂"];
-			let reactionArray = [];
-			
-			let NekoEmbed = new MessageEmbed()
-				.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
-				.setImage(claimGif)
-				.setFooter();
-			client.message.channel.send(NekoEmbed)
-				.then(async function(message) {
-					reactionArray[0] = await message.react(emojiList[0]);
-					setTimeout(() => {
-						message.channel.fetchMessage(message.id)
-							.then(async function(message) {
-								var reactionCountsArray = [];
-								for (var i =0; i < reactionArray.length; i++) {
-									reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
-								}
-								
-								// find winners
-								var max = -Infinity, indexMax = [];
-								for (var i = 0; i < reactionCountsArray.length; ++i)
-									if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-									else if (reactionCountsArray[i] === max) indexMax.push(i);
-								
-								console.log(reactionCountsArray); // debugging votes
-								var winnersText = "";
-								if (reactionCountsArray[indexMax[0]] == 0) {
-									winnersText = "No one caught the Neko!"
-								} else {
-									for (var i = 0; i < indexMax.length; i++) {
-										winnersText +=
-											emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
-									}
-								}
-								
-								NekoEmbed.addField("**Catcher(s):**", winnersText);
-								NekoEmbed.setFooter(`There are no more Nekos! :(`);
-								NekoEmbed.setTimestamp();
-								message.edit("", NekoEmbed);
-								db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
-							})
-					})
-				}).catch(console.error);
-		}, 5*1000);
-	}catch(err) {
-		console.log(err.stack);
-	}
-}
-
-// Neko Game
-function NekoGame() {
-	try {
-		
-	} catch(e) {
-		console.error(e.stack);
-	}
-}
 
 // If the client is ready
 client.on('ready', () => {
-	client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
+        client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
+		mongoEco.connectDatabase("mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority"); // this only needs to be called once!
+        // Push client-related activities
+        client.activities.push(
+                { text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
+                { text: () => `with ${formatNumber(client.registry.commands.size)} commands`, type: 'PLAYING' },
+                { text: () => `${formatNumber(client.channels.cache.size)} channels`, type: 'WATCHING' }
+        );
 
-	// Push client-related activities
-	client.activities.push(
-		{ text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
-		{ text: () => `with ${formatNumber(client.registry.commands.size)} commands`, type: 'PLAYING' },
-		{ text: () => `${formatNumber(client.channels.cache.size)} channels`, type: 'WATCHING' }
-	);
+        // Interval to change activity every minute
+        client.setInterval(() => {
+                const activity = client.activities[Math.floor(Math.random() * client.activities.length)];
+                const text = typeof activity.text === 'function' ? activity.text() : activity.text;
+                client.user.setActivity(text, { type: activity.type });
+        }, 60000);
 
-	// Interval to change activity every minute
-	client.setInterval(() => {
-		const activity = client.activities[Math.floor(Math.random() * client.activities.length)];
-		const text = typeof activity.text === 'function' ? activity.text() : activity.text;
-		client.user.setActivity(text, { type: activity.type });
-	}, 60000);
-	
-	// add the timer here
-	NekoTimer();
-	Dashboard(client);
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Detecting messages recieved
 client.on('message', async (msg, reaction, user) => {
-	try {
-		const hasText = Boolean(msg.content);
-		const hasImage = msg.attachments.size !== 0;
-		const hasEmbed = msg.embeds.length !== 0;
-		if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
-		if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
-
-		const reply = (...arguments) => msg.channel.send(...arguments);
-
-		// retriving the guild settings from the database
-		var storedSettings = await GuildSettings.findOne({ gid: msg.guild.id });
-		if (!storedSettings) {
-			// if there are no settings stored for the server, create and retrive the new ones
-			const newSettings = new GuildSettings({
-				gid: msg.guild.id
-			});
-			await newSettings.save().catch(()=>{});
-			storedSettings = await GuildSettings.findOne({ gid: msg.guild.id });
-		}
-
-		// if the message does not include the prefix stored in the db, we ignore it.
-		if (msg.content.indexOf(storedSettings.commandPrefix) !== 0) return;
-
-		// leveling stuff
-		db.add(`messages_${msg.guild.id}.${msg.author.id}`, 1)
-		let messagefetch = db.fetch(`messages_${msg.guild.id}.${msg.author.id}`)
-
-		let messages;
-		if (messagefetch == 25) messages = 25; // level 1
-		else if (messagefetch == 65) messages = 65; // Level 2
-		else if (messagefetch == 115) messages = 115; // Level 3
-		else if (messagefetch == 200) messages = 200; // Level 4
-		else if (messagefetch == 300) messages = 300; // Level 5
-
-		// if the messages value is numerical
-		if (!isNaN(messages)) {
-			db.add(`level_${msg.guild.id}_${msg.author.id}`, 1)
-			let levelfetch = db.fetch(`level_${msg.guild.id}_${msg.author.id}`)
-			let levelEmbed = new MessageEmbed()
-			.setDescription(`${msg.author}, You have leveled up to level ${levelfetch}`)
-			msg.embed(levelEmbed);
-		}
-
-		// Mika trynna defend herself
-		if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
-			msg.channel.send("No I'm not!").then(msg => {
-
-				if (msg.content === `Yes you are` && msg.author.id === owner) {
-						msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
-				} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
-					newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`)
-					if(rMsg.content.toLowerCase() === "Yep") {
-						rMsg.channel.send("I'm sad now... :cry:");
-					}
+        try {
+                const hasText = Boolean(msg.content);
+                const hasImage = msg.attachments.size !== 0;
+                const hasEmbed = msg.embeds.length !== 0;
+                if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
+                if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
+				
+				var randomXP = Math.floor(Math.random() * 49) +1;
+				var hasLevelUp = await mongoEco.attributeXp(message.member.id, message.guild.id, randomXP);
+				if (hasLevelUp) {
+					// fetch the member
+					// return false if no member entry
+					let member  = await mongoEco.fetchMember(message.member.id, message.guild.id)
+					message.channel.send(`${message.member}, congratulations! you have reached level ${member.level}! Great Job!`);
+					
 				}
-			})
-		}
-		
-		NekoTimer();
-
-		// EASTER EGGS!
-		var filter = (reaction, user) => {
-			return ['😀', '🥄'].includes(reaction.emoji.name) && user.id === msg.author.id;
-		};
-
-		msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-			.then(collected => {
-				const reaction = collected.first();
-
-				if (reaction.emoji.name === '😀') {
-					msg.reply('WooHooo! You just won `30` cookies!');
-					db.add(`money_${msg.guild.id}_${msg.author.id}`, 30);
-				} else {
-					msg.reply('Yay! You won `10` cookies!');
-					db.add(`money_${msg.guild.id}_${msg.author.id}`, 10);
+				
+				if (message.content === "m!create") {
+					let created = await mongoEco.createMember(message.member.id, message.guild.id)
+					console.log(created);
+					message.reply(`Yay! you can now start leveling!`);
 				}
-			})
-			.catch(collected => {
-				// Do nothing cause it's a secret!
-				return;
-			});
+				
+				if (message.content === "m!delete") {
+					let deleted = await mongoEco.deleteMember(message.member.id, message.guild.id);
+					console.log(deleted);
+					message.reply(`Aww, Ok, removing you from the database...done... :(`);
+					
+				}
+				
+				if (message.content === "m!level") {
+					let mention = message.mentions.members.first() ? message.mentions.members.first() : message.member;
+					let member = await mongoeconomy.fetchMember(mention.id, message.guild.id);
+					if (!member) return message.channel.send("You haven't earned any xp or level...")
+					message.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
+				}
+				
+				if (message.content === prefix + "leaderboard") {
+					let raw = await mongoeconomy.getLeaderBoard(message.guild.id, 10);
+					let data = await mongoeconomy.convertLeaderBoard(bot, raw);
 
-		//  music stuff
-		const serverQueue = queue.get(msg.guild.id);
+					let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
+					message.channel.send(leaderboard)
+				}
+				
+                // Start the game based off  people talking (to prevent spam and increase activity!!)!!
+                if (msg.content === "m!NekoGame") {
+					var interval = setInterval(function () {
+							let nekoGif = [ ``, `` ];
+							let claimGif = nekoGif[Math.floor(Math.random() * nekoGif.length)];
+							let emojiList = ["🎂"];
+							let reactionArray = [];
 
-		if (msg.content.startsWith(`${PREFIX}play`)) {
-			execute(msg, serverQueue);
-			return;
-		}
+							let NekoEmbed = new MessageEmbed()
+									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
+									.setImage(claimGif)
+									.setFooter();
+							return message.channel.send(NekoEmbed)
+									.then(async function(message) {
+											reactionArray[0] = await message.react(emojiList[0]);
+											setTimeout(() => {
+													return message.channel.fetchMessage(message.id)
+															.then(async function(message) {
+																	var reactionCountsArray = [];
+																	for (var i =0; i < reactionArray.length; i++) {
+																			reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
+																	}
 
-		else if (msg.content.startsWith(`${PREFIX}skip`)) {
-			skip(msg, serverQueue);
-			return;
-		}
+																	// find winners
+																	var max = -Infinity, indexMax = [];
+																	for (var i = 0; i < reactionCountsArray.length; ++i)
+																			if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
+																			else if (reactionCountsArray[i] === max) indexMax.push(i);
 
-		else if (msg.content.startsWith(`${PREFIX}stop`)) {
-			stop(msg, serverQueue);
-			return;
-		}
-	} catch(error) {
-		console.log(error.stack);
-	}
+																	console.log(reactionCountsArray); // debugging votes
+																	var winnersText = "";
+																	if (reactionCountsArray[indexMax[0]] == 0) {
+																			winnersText = "No one caught the Neko!"
+																	} else {
+																			for (var i = 0; i < indexMax.length; i++) {
+																					winnersText +=
+																							emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
+																			}
+																	}
+
+																	NekoEmbed.addField("**Catcher(s):**", winnersText);
+																	NekoEmbed.setFooter(`There are no more Nekos! :(`);
+																	NekoEmbed.setTimestamp();
+																	return message.edit("", NekoEmbed);
+																	db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
+															})
+											})
+									}).catch(console.error);
+					}, 5 * minute);
+				}
+
+                // Mika trynna defend herself
+                if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
+					msg.channel.send("No I'm not!").then(setTimeout(function () => {
+						if (msg.content === `Yes you are` && msg.author.id === owner) {
+										msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
+						} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
+								newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`)
+								if(rMsg.content.toLowerCase() === "Yep") {
+										rMsg.channel.send("I'm sad now... :cry:");
+								}
+						}
+					}, 1 * 1000)
+                }
+
+                //  music stuff
+                const serverQueue = queue.get(msg.guild.id);
+
+                if (msg.content.startsWith(`${PREFIX}play`)) {
+                        execute(msg, serverQueue);
+                        return;
+                }
+
+                else if (msg.content.startsWith(`${PREFIX}skip`)) {
+                        skip(msg, serverQueue);
+                        return;
+                }
+
+                else if (msg.content.startsWith(`${PREFIX}stop`)) {
+                        stop(msg, serverQueue);
+                        return;
+                }
+        } catch(error) {
+                console.log(error.stack);
+        }
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -370,10 +313,12 @@ function play(guild, song) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Detecting and handling if the client disconnects
-client.on('disconnect', event => {
-	client.logger.error(`[DISCONNECT] Disconnected with code ${event.code}`);
-	//client.exportCommandLeaderboard();
-	process.exit(0);
+client.on('disconnect', async event => {
+        client.logger.error(`[DISCONNECT] Disconnected with code ${event.code}`);
+        //client.exportCommandLeaderboard();
+        await mongoEco.disconnectDatabase();
+		process.exit(0);
+		
 });
 
 // Logging any errors or warnings that pop up
@@ -382,8 +327,8 @@ client.on('warn', warn => client.logger.warn(warn));
 
 // Logging command usages
 client.on('commandRun', command => {
-	if (command.uses === undefined) return;
-	command.uses++;
+        if (command.uses === undefined) return;
+        command.uses++;
 });
 
 // Logging and handling command errors
@@ -393,99 +338,99 @@ client.on('commandError', (command, err) => client.logger.error(`[COMMAND:${comm
 const newUsers = [];
 
 client.on("guildMemberAdd", (member) => {
-	const guild = member.guild;
-	emojiList = ['👋', ':ItWasYou:', ':nom~1:'];
-	welcomeGif = [
-		`https://64.media.tumblr.com/0ff48dce2689bd713c215bc6794ee479/tumblr_o328lujnMO1tydz8to1_540.gifv`,
-		`https://media.tenor.com/images/49c76a66e5e7b224283905f520b90426/tenor.gif`,
-		`https://thumbs.gfycat.com/FaroffEmbarrassedHerald-size_restricted.gif`,
-		`https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdL51HM-lKo2muxCB-d2WJMxKxm3FS-xU0rw&usqp=CAU`,
-		`https://i.imgur.com/rViw7vP.gif`,
-		`https://i.imgur.com/UcGioIH.gif`,
-		`https://i.imgur.com/bwuik6j.gif`,
-		`https://i.imgur.com/se1uFas.gif`,
-		`https://i.imgur.com/foSkpOV.gif`,
-		`https://i.imgur.com/FuINlu9.gif`,
-		`https://i.imgur.com/TXlp1YT.gif`,
-		`https://i.imgur.com/lgbPwfk.gif`,
-		`https://tenor.com/view/hello-happy-feet-penguin-wave-waving-gif-6103866`,
-	]
-	let wGif =  welcomeGif[Math.floor(Math.random * welcomeGif.length)];
-	// embed stuff
-	let welcomeEmbed = new MessageEmbed()
-	.setColor('#ffffff')
-	.setTitle("Someone joined!!!")
-	.setDescription(`Lets say "Hello" to ${member}!\nWe hope they enjoy their stay with us!!`)
-	.setImage(wGif)
-	.setTimestamp()
-	.setThumbnail(`${guild.iconURL()}`)
+        const guild = member.guild;
+        emojiList = ['👋', ':ItWasYou:', ':nom~1:'];
+        welcomeGif = [
+                `https://64.media.tumblr.com/0ff48dce2689bd713c215bc6794ee479/tumblr_o328lujnMO1tydz8to1_540.gifv`,
+                `https://media.tenor.com/images/49c76a66e5e7b224283905f520b90426/tenor.gif`,
+                `https://thumbs.gfycat.com/FaroffEmbarrassedHerald-size_restricted.gif`,
+                `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdL51HM-lKo2muxCB-d2WJMxKxm3FS-xU0rw&usqp=CAU`,
+                `https://i.imgur.com/rViw7vP.gif`,
+                `https://i.imgur.com/UcGioIH.gif`,
+                `https://i.imgur.com/bwuik6j.gif`,
+                `https://i.imgur.com/se1uFas.gif`,
+                `https://i.imgur.com/foSkpOV.gif`,
+                `https://i.imgur.com/FuINlu9.gif`,
+                `https://i.imgur.com/TXlp1YT.gif`,
+                `https://i.imgur.com/lgbPwfk.gif`,
+                `https://tenor.com/view/hello-happy-feet-penguin-wave-waving-gif-6103866`,
+        ]
+        let wGif =  welcomeGif[Math.floor(Math.random * welcomeGif.length)];
+        // embed stuff
+        let welcomeEmbed = new MessageEmbed()
+        .setColor('#ffffff')
+        .setTitle("Someone joined!!!")
+        .setDescription(`Lets say "Hello" to ${member}!\nWe hope they enjoy their stay with us!!`)
+        .setImage(wGif)
+        .setTimestamp()
+        .setThumbnail(`${guild.iconURL()}`)
 
-	if (guild.id ==='756031414616719430') {
-		try {
-			let time = 1;
+        if (guild.id ==='756031414616719430') {
+                try {
+                        let time = 1;
 
-			if (!newUsers[guild.id]) newUsers[guild.id] = new Collection();
-			newUsers[guild.id].set(member.id, member.user);
+                        if (!newUsers[guild.id]) newUsers[guild.id] = new Collection();
+                        newUsers[guild.id].set(member.id, member.user);
 
-			if (newUsers[guild.id].size > 1) {
-				const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
-				guild.channels.cache.find(channel => channel.id === "756046044218916884").send("Welcome our new users!\n" + userlist);
-				guild.channels.cache.find(channel => channel.id === "756046044218916884").send(welcomeEmbed)
-				// EASTER EGGS!
-				var filter = (reaction, user) => {
-					return [':helloPolice:', '🥄'].includes(reaction.emoji.name) && user.id === message.author.id;
-				};
+                        if (newUsers[guild.id].size > 1) {
+                                const userlist = newUsers[guild.id].map(u => u.toString()).join(" ");
+                                guild.channels.cache.find(channel => channel.id === "756046044218916884").send("Welcome our new users!\n" + userlist);
+                                guild.channels.cache.find(channel => channel.id === "756046044218916884").send(welcomeEmbed)
+                                // EASTER EGGS!
+                                var filter = (reaction, user) => {
+                                        return [':helloPolice:', '🥄'].includes(reaction.emoji.name) && user.id === message.author.id;
+                                };
 
-				message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-					.then(collected => {
-						const reaction = collected.first();
+                                message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+                                        .then(collected => {
+                                                const reaction = collected.first();
 
-						if (reaction.emoji.name === ':helloPolice') {
-							message.reply('WooHooo! You just won `300` cookies!');
-							db.add(`money_${msg.guild.id}_${msg.author.id}`, 300);
-						} else {
-							message.reply('Yay! You won `100` cookies!');
-							db.add(`money_${msg.guild.id}_${msg.author.id}`, 100);
-						}
-					})
-					.catch(collected => {
-						// Do nothing cause it's a secret!
-						return;
-					});
+                                                if (reaction.emoji.name === ':helloPolice') {
+                                                        message.reply('WooHooo! You just won `300` cookies!');
+                                                        db.add(`money_${msg.guild.id}_${msg.author.id}`, 300);
+                                                } else {
+                                                        message.reply('Yay! You won `100` cookies!');
+                                                        db.add(`money_${msg.guild.id}_${msg.author.id}`, 100);
+                                                }
+                                        })
+                                        .catch(collected => {
+                                                // Do nothing cause it's a secret!
+                                                return;
+                                        });
 
-				newUsers[guild.id].clear();
-			}
-		} catch(error) {
-			console.log(error.stack);
-		}
-	}
-	else {
-		return;
-	}
+                                newUsers[guild.id].clear();
+                        }
+                } catch(error) {
+                        console.log(error.stack);
+                }
+        }
+        else {
+                return;
+        }
 });
 
 // leave message
 client.on('guildMemberRemove', member => {
-	const guild = member.guild;
-	if (guild.id === "756031414616719430"){
-		try {
-			let leaveEmbed = new MessageEmbed()
-			.setColor('#ffffff')
-			.setTitle("Someone left!")
-			.setDescription(`Lets say "Goodbye" to ${member}!\nWe hope they enjoyed their stay!`)
-			.setTimestamp()
-			.setThumbnail(`${guild.iconURL()}`)
-			const channel = member.guild.channels.cache.find(ch => ch.id === '756046044218916884');
-			if(!channel) return;
-			channel.send(leaveEmbed);
-			if (newUsers[guild.id].has(member.id)) newUsers.delete(member.id);
-		} catch (error) {
-			console.log(error.stack);
-		}
-	}
-	else {
-		return;
-	}
+        const guild = member.guild;
+        if (guild.id === "756031414616719430"){
+                try {
+                        let leaveEmbed = new MessageEmbed()
+                        .setColor('#ffffff')
+                        .setTitle("Someone left!")
+                        .setDescription(`Lets say "Goodbye" to ${member}!\nWe hope they enjoyed their stay!`)
+                        .setTimestamp()
+                        .setThumbnail(`${guild.iconURL()}`)
+                        const channel = member.guild.channels.cache.find(ch => ch.id === '756046044218916884');
+                        if(!channel) return;
+                        channel.send(leaveEmbed);
+                        if (newUsers[guild.id].has(member.id)) newUsers.delete(member.id);
+                } catch (error) {
+                        console.log(error.stack);
+                }
+        }
+        else {
+                return;
+        }
 });
 
 // finally, log into the bot account
