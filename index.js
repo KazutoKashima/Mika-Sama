@@ -159,9 +159,7 @@ client.on('message', async (msg, reaction, user) => {
 									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 									.setImage(claimGif)
 									.setFooter();
-							msg.channel.send(NekoEmbed)
-							
-							msg.react("🎂")
+							msg.channel.send(NekoEmbed).then(() => msg.react("🎂"));
 							
 							let filter = (reaction, user) => {
 								return ['🎂'].includes(reaction.emoji.name) && user.id === msg.author.id
