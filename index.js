@@ -153,48 +153,29 @@ client.on('message', async (msg, reaction, user) => {
 							let nekoGif = [ Cleo, Neo, Claire];
 							let claimGif = nekoGif[Math.floor(Math.random() * nekoGif.length)];
 							let emojiList = ["🎂"];
-							let reactionArray = [];
+							//let reactionArray = [];
 
 							let NekoEmbed = new MessageEmbed()
 									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
 									.setImage(claimGif)
 									.setFooter();
 							msg.channel.send(NekoEmbed)
-								.then(async function(msg) {
-										reactionArray[0] = await msg.react(emojiList[0]);
-										setTimeout(() => {
-												return msg.channel.messages.fetch(msg.id)
-														.then(async function(msg) {
-																var reactionCountsArray = [];
-																for (var i =0; i < reactionArray.length; i++) {
-																		reactionCountsArray[i] = msg.reactions.get(emojiList[i]).count-1;
-																}
+							
+							msg.react(emojiList[0])
+							
+							msg.awaitReactions(filter, { max: 1, time: 10*second, errors: ['time'] })
+								.then(collected => {
+									const reaction = collected.first();
 
-																// find winners
-																var max = -Infinity, indexMax = [];
-																for (var i = 0; i < reactionCountsArray.length; ++i)
-																		if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-																		else if (reactionCountsArray[i] === max) indexMax.push(i);
-
-																console.log(reactionCountsArray); // debugging votes
-																var winnersText = "";
-																if (reactionCountsArray[indexMax[0]] == 0) {
-																		winnersText = "No one caught the Neko!"
-																} else {
-																		for (var i = 0; i < indexMax.length; i++) {
-																				winnersText +=
-																						emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
-																		}
-																}
-
-																NekoEmbed.addField("**Catcher(s):**", winnersText);
-																NekoEmbed.setFooter(`There are no more Nekos! :(`);
-																NekoEmbed.setTimestamp();
-																return msg.edit("", NekoEmbed);
-																db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
-														})
-										}, 1*minute)
-								}).catch(console.error);
+									if (reaction.emoji.name === '🎂') {
+										NekoEmbed.addField("**Catcher**", reaction.author)
+										NekoEmbed.setFooter("It's been caught! Woohoo!")
+										msg.edit("", NekoEmbed);
+									}
+								})
+								.catch(collected => {
+									msg.channel.send("Oh no! The Neko ran away!")
+								});
 						}, 10 * minute);
 					} else {
 						msg.reply("Sorry but you can't start the game!\nPlease contact and Admin or Mod to start it!");

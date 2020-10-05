@@ -15,8 +15,8 @@ module.exports = class MuteCommand extends Command {
 	
 	async run(message) {
 		//!tempmute @user 1s/m/h/d
-		args = message.content.split(' ').slice(2)
-		arg = args.join(' ');
+		const args = message.content.split(' ').slice(2);
+		const arg = args.join(' ');
 		let tomute = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 		if(!tomute) return message.reply("Couldn't find user.");
 		if(tomute.hasPermission("MANAGE_MESSAGES")) return message.reply("Can't mute them!");
