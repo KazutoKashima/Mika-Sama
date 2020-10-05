@@ -142,7 +142,7 @@ client.on('message', async (msg, reaction, user) => {
 				
                 // Start the game based off  people talking (to prevent spam and increase activity!!)!!
                 if (msg.content === "m!NekoGame") {
-					if (msg.author.hasPermissions("MANAGE_MESSAGES")) {
+					if (msg.member.hasPermission("MANAGE_MESSAGES")) {
 						msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
 						var interval = setInterval(function () {
 							let Neo = `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ85MBftkIf1S_BRoHkwlOSdrymKF8gSPP6Zg&usqp=CAU`
