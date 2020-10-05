@@ -37,7 +37,7 @@ module.exports = class helpCommand extends Command {
 			`https://tenor.com/view/hello-happy-feet-penguin-wave-waving-gif-6103866`,
 		];
 		
-		let gif = helpGifs[Math.floor(Math.random * helpGifs.length)];
+		let gif = helpGifs[Math.floor(Math.random() * helpGifs.length)];
 		
 		if(!args.length) {
 			
@@ -46,13 +46,14 @@ module.exports = class helpCommand extends Command {
 			.setColor("#673ab7")
 			.addField("**Utility:** _Enabled_", "ping, server info, bot info, \nsupport invite, help")
 			.addField("**Roleplay:** _Enabled_", "Hug, Kill, Pat,\nPoke, Punch, Slap\n*More is to come!*")
-			.addField("**Fun:** _Enabled_", "funfact, vote, avatar\n\"Mika you're dysfunctional\"\n")
+			.addField("**Fun:** _Enabled_", "funfact, vote, avatar, \"Mika you're dysfunctional\"")
 			.addField("**Economy:** _Enabled_", "work, deposit/bank/depos, rob")
 			.addField("**Music:** _Enabled_", "Play, Skip, Stop")
-			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail),\nPurge, Mute")
+			.addField(":bangbang: Leveling :bangbang:", "use the `create` cmd to add yourself to the leveling system and `delete` to remove yourself!\nYou can view you level with `level` or `lvl`\nA leader-board is soon to come!")
+			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail), Purge, Mute")
 			.setImage(gif)
-			.setFooter(`[Join my server!](https://discord.gg/FaG6rSM)\nThere's also easter eggs, try to find them!`)
-			data.push("Here's a list of all my commands:");
+			.setFooter(`Join us with the support cmd!\nThere's also easter eggs, try to find them!`)
+			data.push("Here's a list of all my commands:")
 		//data.push(`\nYou can send \`${prefix}help [command name]\` to get help on a command`);
 			
 		return message.author.send(helpEmbed)
@@ -65,14 +66,7 @@ module.exports = class helpCommand extends Command {
 				message.say("It seems that I can't DM you! Do you have your DMs open?");
 			});
 		}
-		const name = args[0].toLowerCase();
-		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
-
-		if (!command) {
-			return message.say('that\'s not a valid command!');
-		}
 		
-
 		message.embed(helpEmbed);
 	}
 };

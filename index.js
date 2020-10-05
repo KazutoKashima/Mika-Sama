@@ -134,11 +134,23 @@ client.on('message', async (msg, reaction, user) => {
 					msg.channel.send(leaderboard)
 				}
 				
+				var randomthing = setInterval(function() {
+					if (msg.guild.id === '756031414616719430') {
+						msg.channels.cache.find(channel => channel.id === "758535715100950548").send("Hi there! Remember to help promote us by using #bump-us or by spreading the word about me!");
+					}
+				}, 2 * hour)
+				
                 // Start the game based off  people talking (to prevent spam and increase activity!!)!!
                 if (msg.content === "m!NekoGame") {
-					msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
-					var interval = setInterval(function () {
-							let nekoGif = [ ``, `` ];
+					if (msg.author.hasPermissions("MANAGE_MESSAGES")) {
+						msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
+						var interval = setInterval(function () {
+							let Neo = `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ85MBftkIf1S_BRoHkwlOSdrymKF8gSPP6Zg&usqp=CAU`
+							let Cleo = `https://i.imgur.com/GOxjyfI.jpg`
+							let Claire =  `https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1251a8d5-c247-450d-aa22-e42c7f601476/dd73lx7-dbd59561-29b9-41bf-9e4f-79a7e6bfb6d8.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMTI1MWE4ZDUtYzI0Ny00NTBkLWFhMjItZTQyYzdmNjAxNDc2XC9kZDczbHg3LWRiZDU5NTYxLTI5YjktNDFiZi05ZTRmLTc5YTdlNmJmYjZkOC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.74cnaaLhXnFo4dgGmspqJDcIIZwaCYFOrp1a0noRaeo`
+							let Ash = `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQzl6-iV9n3ErZw9mdAQDlm3rOAvTt3HbL-NQ&usqp=CAU`
+							
+							let nekoGif = [ Cleo, Neo, Claire];
 							let claimGif = nekoGif[Math.floor(Math.random() * nekoGif.length)];
 							let emojiList = ["🎂"];
 							let reactionArray = [];
@@ -148,42 +160,45 @@ client.on('message', async (msg, reaction, user) => {
 									.setImage(claimGif)
 									.setFooter();
 							msg.channel.send(NekoEmbed)
-									.then(async function(msg) {
-											reactionArray[0] = await msg.react(emojiList[0]);
-											setTimeout(() => {
-													return msg.channel.messages.fetch(msg.id)
-															.then(async function(msg) {
-																	var reactionCountsArray = [];
-																	for (var i =0; i < reactionArray.length; i++) {
-																			reactionCountsArray[i] = msg.reactions.get(emojiList[i]).count-1;
-																	}
+								.then(async function(msg) {
+										reactionArray[0] = await msg.react(emojiList[0]);
+										setTimeout(() => {
+												return msg.channel.messages.fetch(msg.id)
+														.then(async function(msg) {
+																var reactionCountsArray = [];
+																for (var i =0; i < reactionArray.length; i++) {
+																		reactionCountsArray[i] = msg.reactions.get(emojiList[i]).count-1;
+																}
 
-																	// find winners
-																	var max = -Infinity, indexMax = [];
-																	for (var i = 0; i < reactionCountsArray.length; ++i)
-																			if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-																			else if (reactionCountsArray[i] === max) indexMax.push(i);
+																// find winners
+																var max = -Infinity, indexMax = [];
+																for (var i = 0; i < reactionCountsArray.length; ++i)
+																		if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
+																		else if (reactionCountsArray[i] === max) indexMax.push(i);
 
-																	console.log(reactionCountsArray); // debugging votes
-																	var winnersText = "";
-																	if (reactionCountsArray[indexMax[0]] == 0) {
-																			winnersText = "No one caught the Neko!"
-																	} else {
-																			for (var i = 0; i < indexMax.length; i++) {
-																					winnersText +=
-																							emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
-																			}
-																	}
+																console.log(reactionCountsArray); // debugging votes
+																var winnersText = "";
+																if (reactionCountsArray[indexMax[0]] == 0) {
+																		winnersText = "No one caught the Neko!"
+																} else {
+																		for (var i = 0; i < indexMax.length; i++) {
+																				winnersText +=
+																						emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
+																		}
+																}
 
-																	NekoEmbed.addField("**Catcher(s):**", winnersText);
-																	NekoEmbed.setFooter(`There are no more Nekos! :(`);
-																	NekoEmbed.setTimestamp();
-																	return msg.edit("", NekoEmbed);
-																	db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
-															})
-											})
-									}).catch(console.error);
-					}, 5 * minute);
+																NekoEmbed.addField("**Catcher(s):**", winnersText);
+																NekoEmbed.setFooter(`There are no more Nekos! :(`);
+																NekoEmbed.setTimestamp();
+																return msg.edit("", NekoEmbed);
+																db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
+														})
+										}, 1*minute)
+								}).catch(console.error);
+						}, 10 * minute);
+					} else {
+						msg.reply("Sorry but you can't start the game!\nPlease contact and Admin or Mod to start it!");
+					}
 				}
 
                 /*Mika trynna defend herself
@@ -222,56 +237,6 @@ client.on('message', async (msg, reaction, user) => {
         }
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-async function NekoGame(message) {
-	setInterval(function () {
-		let nekoGif = [ ``, `` ];
-		let claimGif = nekoGif[Math.floor(Math.random * nekoGif.length)];
-		let emojiList = ["🎂"];
-		let reactionArray = [];
-		
-		let NekoEmbed = new MessageEmbed()
-			.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
-			.setImage(claimGif)
-			.setFooter();
-		return message.channel.send(NekoEmbed)
-			.then(async function(message) {
-				reactionArray[0] = await message.react(emojiList[0]);
-				setTimeout(() => {
-					return message.channel.fetchMessage(message.id)
-						.then(async function(message) {
-							var reactionCountsArray = [];
-							for (var i =0; i < reactionArray.length; i++) {
-								reactionCountsArray[i] = message.reactions.get(emojiList[i]).count-1;
-							}
-							
-							// find winners
-							var max = -Infinity, indexMax = [];
-							for (var i = 0; i < reactionCountsArray.length; ++i)
-								if (reactionCountsArray[i] > max) max = reactionCountsArray[i], indexMax = [i];
-								else if (reactionCountsArray[i] === max) indexMax.push(i);
-							
-							console.log(reactionCountsArray); // debugging votes
-							var winnersText = "";
-							if (reactionCountsArray[indexMax[0]] == 0) {
-								winnersText = "No one caught the Neko!"
-							} else {
-								for (var i = 0; i < indexMax.length; i++) {
-									winnersText +=
-										emojiList[indexMax[i]] + " (" + reactionCountsArray[indexMax[i]] + " catcher(s))\n";
-								}
-							}
-							
-							NekoEmbed.addField("**Catcher(s):**", winnersText);
-							NekoEmbed.setFooter(`There are no more Nekos! :(`);
-							NekoEmbed.setTimestamp();
-							return message.edit("", NekoEmbed);
-							db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
-						})
-				})
-			}).catch(console.error);
-	}, 5 * minute);
-}
 
 // music functions
 async function execute(msg, serverQueue) {
