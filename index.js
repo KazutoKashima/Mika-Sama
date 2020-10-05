@@ -185,7 +185,7 @@ client.on('message', async (msg, reaction, user) => {
 					}, 5 * minute);
 				}
 
-                // Mika trynna defend herself
+                /*Mika trynna defend herself
                 if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
 					msg.channel.send("No I'm not!").then(setTimeout(function () {
 						if (msg.content === `Yes you are` && msg.author.id === owner) {
@@ -196,8 +196,8 @@ client.on('message', async (msg, reaction, user) => {
 										rMsg.channel.send("I'm sad now... :cry:");
 								}
 						}
-					}, 1 * 1000)
-                }
+					}),1 * 1000)
+                }*/
 
                 //  music stuff
                 const serverQueue = queue.get(msg.guild.id);
