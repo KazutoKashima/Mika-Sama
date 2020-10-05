@@ -161,10 +161,10 @@ client.on('message', async (msg, reaction, user) => {
 									.setFooter();
 							msg.channel.send(NekoEmbed)
 							
-							msg.react(emojiList[0])
+							msg.react("🎂")
 							
 							let filter = (reaction, user) => {
-								return ['🎂'].includes(reaction.emoji.name) && user.id === message.author.id
+								return ['🎂'].includes(reaction.emoji.name) && user.id === msg.author.id
 							}
 							
 							msg.awaitReactions(filter, { max: 1, time: 10*second, errors: ['time'] })
