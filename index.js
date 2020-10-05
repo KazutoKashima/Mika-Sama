@@ -168,7 +168,7 @@ client.on('message', async (msg, reaction, user) => {
 									const reaction = collected.first();
 
 									if (reaction.emoji.name === '🎂') {
-										NekoEmbed.addField("**Catcher**", reaction.author)
+										NekoEmbed.addField("**Catcher**", reaction.message.author)
 										NekoEmbed.setFooter("It's been caught! Woohoo!")
 										msg.edit("", NekoEmbed);
 										db.add(`catches_${msg.guild.id}_${msg.author.id}`, 1)
