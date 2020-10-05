@@ -151,7 +151,7 @@ client.on('message', async (msg, reaction, user) => {
 									.then(async function(msg) {
 											reactionArray[0] = await msg.react(emojiList[0]);
 											setTimeout(() => {
-													msg.channel.fetchMessage(msg.id)
+													return msg.channel.fetchMessage(msg.id)
 															.then(async function(msg) {
 																	var reactionCountsArray = [];
 																	for (var i =0; i < reactionArray.length; i++) {
@@ -178,7 +178,7 @@ client.on('message', async (msg, reaction, user) => {
 																	NekoEmbed.addField("**Catcher(s):**", winnersText);
 																	NekoEmbed.setFooter(`There are no more Nekos! :(`);
 																	NekoEmbed.setTimestamp();
-																	msg.edit("", NekoEmbed);
+																	return msg.edit("", NekoEmbed);
 																	db.add(`nekos_${reaction.author.id}_${String(claimGif)}`);
 															})
 											})
