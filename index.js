@@ -121,14 +121,14 @@ client.on('message', async (msg, reaction, user) => {
 				
 				if (msg.content === "m!level") {
 					let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
-					let member = await mongoeconomy.fetchMember(mention.id, msg.guild.id);
+					let member = await mongoEco.fetchMember(mention.id, msg.guild.id);
 					if (!member) return msg.channel.send("You haven't earned any xp or level...")
 					msg.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
 				}
 				
 				if (msg.content === "m!leaderboard" || msg.content === "m!leader") {
-					let raw = await mongoeconomy.getLeaderBoard(msg.guild.id, 10);
-					let data = await mongoeconomy.convertLeaderBoard(bot, raw);
+					let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
+					let data = await mongoEco.convertLeaderBoard(bot, raw);
 
 					let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
 					msg.channel.send(leaderboard)
