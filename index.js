@@ -106,92 +106,14 @@ client.on('message', async (msg, reaction, user) => {
 					
 				}
 				
-				if (msg.content === "m!create") {
-					let created = await mongoEco.createMember(msg.member.id, msg.guild.id)
-					console.log(created);
-					msg.reply(`Yay! you can now start leveling!`);
-				}
-				
-				if (msg.content === "m!delete") {
-					let deleted = await mongoEco.deleteMember(msg.member.id, msg.guild.id);
-					console.log(deleted);
-					msg.reply(`Aww, Ok, removing you from the database...done... :(`);
-					
-				}
-				
-				if (msg.content === "m!level") {
-					let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
-					let member = await mongoEco.fetchMember(mention.id, msg.guild.id);
-					if (!member) return msg.channel.send("You haven't earned any xp or level...")
-					msg.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
-				}
-				
-				if (msg.content === "m!leaderboard" || msg.content === "m!leader") {
-					let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
-					let data = await mongoEco.convertLeaderBoard(client, raw);
-
-					let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
-					msg.channel.send(leaderboard)
-				}
-				
 				var randomthing = setInterval(function() {
 					if (msg.guild.id === '756031414616719430') {
 						msg.channels.cache.find(channel => channel.id === "758535715100950548").send("Hi there! Remember to help promote us by using #bump-us or by spreading the word about me!");
 					}
 				}, 2 * hour)
-				
-                // Start the game based off  people talking (to prevent spam and increase activity!!)!!
-                if (msg.content === "m!NekoGame") {
-					if (msg.member.hasPermission("MANAGE_MESSAGES")) {
-						msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
-						var interval = setInterval(function () {
-							let Neo = `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ85MBftkIf1S_BRoHkwlOSdrymKF8gSPP6Zg&usqp=CAU`
-							let Cleo = `https://i.imgur.com/GOxjyfI.jpg`
-							let Claire =  `https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1251a8d5-c247-450d-aa22-e42c7f601476/dd73lx7-dbd59561-29b9-41bf-9e4f-79a7e6bfb6d8.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMTI1MWE4ZDUtYzI0Ny00NTBkLWFhMjItZTQyYzdmNjAxNDc2XC9kZDczbHg3LWRiZDU5NTYxLTI5YjktNDFiZi05ZTRmLTc5YTdlNmJmYjZkOC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.74cnaaLhXnFo4dgGmspqJDcIIZwaCYFOrp1a0noRaeo`
-							let Ash = `https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQzl6-iV9n3ErZw9mdAQDlm3rOAvTt3HbL-NQ&usqp=CAU`
-							
-							let nekoGif = [ Cleo, Neo, Claire];
-							let claimGif = nekoGif[Math.floor(Math.random() * nekoGif.length)];
-							let emojiList = ["🎂"];
-							//let reactionArray = [];
-
-							let NekoEmbed = new MessageEmbed()
-									.setDescription(`Hey, look! It's a Neko! Someone catch it!`)
-									.setImage(claimGif)
-									.setFooter();
-							msg.channel.send(NekoEmbed)
-								.then(async m => {
-									await msg.react("🎂");
-								})
-							
-							let filter = (reaction, user) => {
-								return ['🎂'].includes(reaction.emoji.name) && user.id === msg.author.id
-							}
-							
-							msg.awaitReactions(filter, { max: 1, time: 10*minute, errors: ['time'] })
-								.then(collected => {
-									const reaction = collected.first();
-
-									if (reaction.emoji.name === '🎂') {
-										NekoEmbed.addField("**Catcher**", reaction.message.author)
-										NekoEmbed.setFooter("It's been caught! Woohoo!")
-										msg.edit("", NekoEmbed);
-										db.add(`catches_${msg.guild.id}_${msg.author.id}`, 1)
-									}
-								})
-								.catch(collected => {
-									msg.channel.send("Oh no! The Neko ran away!")
-								});
-								
-						}, 10 * minute);
-						
-					} else {
-						msg.reply("Sorry but you can't start the game!\nPlease contact and Admin or Mod to start it!");
-					}
-				}
-
+                
                 /*Mika trynna defend herself
-                if (msg.content === `Mika you're dsyfunctional` && msg.channel.type !== "dm" || msg.content === `Mika youre dysfunctional` && msg.channel.type !== "dm") {
+                if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.(`Mika youre dysfunctional`)) {
 					msg.channel.send("No I'm not!").then(setTimeout(function () {
 						if (msg.content === `Yes you are` && msg.author.id === owner) {
 										msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
@@ -390,7 +312,7 @@ client.on("guildMemberAdd", (member) => {
                                         .then(collected => {
                                                 const reaction = collected.first();
 
-                                                if (reaction.emoji.name === ':helloPolice') {
+                                                if (reaction.emoji.name === 'helloPolice') {
                                                         message.reply('WooHooo! You just won `300` cookies!');
                                                         db.add(`money_${msg.guild.id}_${msg.author.id}`, 300);
                                                 } else {
