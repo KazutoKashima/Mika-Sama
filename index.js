@@ -93,7 +93,7 @@ client.on('message', async (msg, reaction, user) => {
                 const hasText = Boolean(msg.content);
                 const hasImage = msg.attachments.size !== 0;
                 const hasEmbed = msg.embeds.length !== 0;
-                if (msg.author.bot || (!hasText && !hasImage && !hasEmbed)) return;
+                if (msg.author.client || (!hasText && !hasImage && !hasEmbed)) return;
                 if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
 				
 				var randomXP = Math.floor(Math.random() * 49) +1;
@@ -128,7 +128,7 @@ client.on('message', async (msg, reaction, user) => {
 				
 				if (msg.content === "m!leaderboard" || msg.content === "m!leader") {
 					let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
-					let data = await mongoEco.convertLeaderBoard(bot, raw);
+					let data = await mongoEco.convertLeaderBoard(client, raw);
 
 					let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
 					msg.channel.send(leaderboard)
