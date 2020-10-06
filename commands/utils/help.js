@@ -49,7 +49,7 @@ module.exports = class helpCommand extends Command {
 			.addField("**Fun:** _Enabled_", "funfact, vote, avatar, \"Mika you're dysfunctional\"")
 			.addField("**Economy:** _Enabled_", "work, deposit/bank/depos, rob")
 			.addField("**Music:** _Enabled_", "Play, Skip, Stop")
-			.addField(":bangbang: Leveling :bangbang:", "use the `create` cmd to add yourself to the leveling system and `delete` to remove yourself!\nYou can view you level with `level` or `lvl`\nA leader-board is soon to come!")
+			.addField(":bangbang: Leveling :bangbang:", "use the `create` cmd to add yourself to the leveling system and `no-level` to remove yourself!\nYou can view you level with `level` or `lvl`\nA leader-board is soon to come!")
 			.addField("**Administrator:** _Enabled_", "Kick, Ban, Report(ModMail), Purge, Mute")
 			.setImage(gif)
 			.setFooter(`Join us with the support cmd!\nThere's also easter eggs, try to find them!`)
