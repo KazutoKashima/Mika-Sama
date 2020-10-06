@@ -8,7 +8,7 @@ module.exports = class LevelCreareCommand extends Command {
 			name: 'delete',
 			description: 'Removes you into the leveling system...',
 			group: 'fun',
-			memberName: 'delete',
+			memberName: 'deleteDB',
 			aliases: ['del'],
 			usage: 'delete',
 			guildOnly: true,
