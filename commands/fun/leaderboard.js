@@ -15,7 +15,7 @@ module.exports = class LevelCreareCommand extends Commands {
 		});
 	}
 	
-	run (msg) {
+	async run (msg) {
 		let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
 		let data = await mongoEco.convertLeaderBoard(client, raw);
 

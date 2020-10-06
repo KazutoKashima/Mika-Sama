@@ -15,7 +15,7 @@ module.exports = class LevelCommand extends Commands {
 		});
 	}
 	
-	run(msg) {
+	async run(msg) {
 		let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
 		let member = await mongoEco.fetchMember(mention.id, msg.guild.id);
 		if (!member) return msg.channel.send("You haven't earned any xp or level...")

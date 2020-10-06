@@ -14,7 +14,7 @@ module.exports = class LevelCreareCommand extends Commands {
 			guildOnly: true,
 		});
 	}
-	run (msg) {
+	async run (msg) {
 		let deleted = await mongoEco.deleteMember(msg.member.id, msg.guild.id);
 		console.log(deleted);
 		msg.reply(`Aww, Ok, removing you from the database...done... :(`);
