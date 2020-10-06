@@ -44,7 +44,7 @@ module.exports = class helpCommand extends Command {
 		let helpEmbed = new MessageEmbed()
 			.setTitle("𝖧-𝗁𝗂! 𝖸𝗈𝗎 𝖼𝖺𝗇 𝗎𝗌𝖾 𝗆𝗒 𝖼𝗈𝗆𝗆𝖺𝗇𝖽𝗌 𝗐𝗂𝗍𝗁 `𝗆!`")
 			.setColor("#673ab7")
-			.addField("**Utility:**", "ping, server info, bot info, \nsupport invite, help")
+			.addField("**Utility:**", "ping, server info, bot info, \nsupport, invite, help")
 			.addField("**Roleplay:**", "Hug, Kill, Pat,\nPoke, Punch, Slap\n*More is to come!*")
 			.addField("**Fun:**", "funfact, vote, avatar, \"Mika you're dysfunctional\"")
 			.addField("**Economy:**", "work, deposit/bank/depos, rob")
