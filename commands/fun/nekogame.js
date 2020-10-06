@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 
-module.exports = class NekoGame extends Commands {
+module.exports = class NekoGame extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'nekogame',

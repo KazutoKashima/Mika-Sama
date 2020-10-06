@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const mongoEco = require('discord-mongodb-economy');
 
-module.exports = class LevelCommand extends Commands {
+module.exports = class LevelCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'level',
