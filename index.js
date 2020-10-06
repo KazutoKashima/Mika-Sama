@@ -161,7 +161,7 @@ client.on('message', async (msg, reaction, user) => {
 									.setFooter();
 							msg.channel.send(NekoEmbed)
 								.then(async m => {
-									await msg.react("🎂"));
+									await msg.react("🎂");
 								})
 							
 							let filter = (reaction, user) => {
