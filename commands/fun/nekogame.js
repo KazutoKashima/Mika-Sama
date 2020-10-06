@@ -1,5 +1,8 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
 
 module.exports = class NekoGame extends Command {
 	constructor(client) {
