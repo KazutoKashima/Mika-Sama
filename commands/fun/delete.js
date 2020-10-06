@@ -5,11 +5,11 @@ const mongoEco = require('discord-mongodb-economy');
 module.exports = class LevelCreareCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'delete',
+			name: 'no-level',
 			description: 'Removes you into the leveling system...',
 			group: 'fun',
 			memberName: 'deletedb',
-			aliases: ['del'],
+			aliases: ['no level', 'n lvl'],
 			usage: 'delete',
 			guildOnly: true,
 		});
