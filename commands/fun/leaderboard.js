@@ -1,6 +1,19 @@
+// .env stuff
+require('dotenv').config(); // .env register
+const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const mongoEco = require('discord-mongodb-economy');
+const Client = require('../../structures/Client');
+const client = new Client({
+        commandPrefix: PREFIX,
+        owner: OWNERS.split(','),
+        invite: INVITE,
+        disableMentions: 'everyone',
+        unknownCommandResponse: false,
+});
+
+client.login(TOKEN);
 
 module.exports = class LevelCreareCommand extends Command {
 	constructor(client) {
