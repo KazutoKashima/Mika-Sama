@@ -9,7 +9,7 @@ module.exports = class HugCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'support',
-			aliases: ['supportinvite', 'support invite'],
+			aliases: ['support invite'],
 			group: 'utils',
 			memberName: 'support',
 			description: 'invites a user to the support server.',

@@ -14,7 +14,7 @@ module.exports = class NekoGame extends Command {
 		});
 	}
 	
-	async run(message) {
+	async run(msg) {
 		if (msg.member.hasPermission("MANAGE_MESSAGES")) {
 			msg.channel.send("OK! Starting the game now!\nIt works off a timer so keep an eye out for the messages!")
 			var interval = setInterval(function () {
