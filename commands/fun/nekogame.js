@@ -39,7 +39,7 @@ module.exports = class NekoGame extends Command {
 					msg.channel.send(NekoEmbed)
 						.then(async m => {
 							let chID = msg.channls.cache.get(msg.channel.id)
-							await msg.channels.cache.get(chID).messages.cache.fetch(NekoEmbed.id).react("🎂"));
+							await msg.channels.cache.get(chID).messages.cache.fetch(NekoEmbed.id).react("🎂");
 						})
 					
 					let filter = (reaction, user) => {
