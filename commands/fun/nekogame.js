@@ -43,7 +43,7 @@ module.exports = class NekoGame extends Command {
 							await msg.channels.cache.find(c => c.id === msg.channel.id).then( async msg => {
 								msg.message.cache.find(m => m.id === NeoEmbed.id).then( async message => {
 									message.react('🎂');
-							}).catch(console.error);
+							})
 						})
 					
 					let filter = (reaction, user) => {
@@ -67,7 +67,7 @@ module.exports = class NekoGame extends Command {
 						
 				}, 10 * minute);
 				
-			}).catch (e) {
+			}catch (e) {
 				console.log(e);
 				msg.channel.send(`Sorry but there was an error! Please notify Kuromei with the following error:\n\`${e.stack}\``)
 			}
