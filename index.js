@@ -54,6 +54,7 @@ client.registry
                 ['admin', 'Admin'],
                 ['fun', 'Fun'],
                 ["auto", "Auto"],
+                ["nsfw", "NSFW"],
         ])
         .registerDefaultGroups()
         .registerDefaultCommands({

@@ -33,6 +33,10 @@ module.exports = class LevelCreareCommand extends Command {
 		let data = await mongoEco.convertLeaderBoard(client, raw);
 
 		let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
-		msg.channel.send(leaderboard)
+		let lbEmbed = new MessageEmbed()
+		.addField(`${msg.guild.name}'s Leaderboard!`, `${leaderboard}`)
+		.setColor("#ff0e6")
+		.setTimestamp()
+		msg.embed(lbEmbed);
 	}
 }
