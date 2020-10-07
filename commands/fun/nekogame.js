@@ -43,7 +43,7 @@ module.exports = class NekoGame extends Command {
 							await msg.channels.cache.find(c => c.id === msg.channel.id).then( async msg => {
 								msg.message.cache.find(m => m.id === NeoEmbed.id).then( async message => {
 									message.react('🎂');
-							})
+							}).catch(console.error);
 						})
 					
 					let filter = (reaction, user) => {
@@ -65,7 +65,7 @@ module.exports = class NekoGame extends Command {
 							msg.channel.send("Oh no! The Neko ran away!")
 						});
 						
-				}, 10 * minute);
+				}, 10 * minute));
 				
 			}catch (e) {
 				console.log(e);
