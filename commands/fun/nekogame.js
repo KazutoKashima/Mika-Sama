@@ -67,7 +67,7 @@ module.exports = class NekoGame extends Command {
 						
 				}, 10 * minute);
 				
-			}catch (e) {
+			}).catch (e) {
 				console.log(e);
 				msg.channel.send(`Sorry but there was an error! Please notify Kuromei with the following error:\n\`${e.stack}\``)
 			}
