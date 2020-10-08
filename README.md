@@ -11,6 +11,8 @@ Let me list a few!
 4. Economy (We're improving this one!)
 5. And your basic utilities!
 
+-----------------------------------------------------
+
 #### TO ADD:
 1. ~~Mute~~
 2. Interactive headpats
@@ -24,4 +26,3 @@ Let me list a few!
 
 #### You want to support or have any questions about her?
 [Join us here!](https://www.discord.gg/FaG6rSM)
-
