@@ -28,10 +28,10 @@ module.exports = class nekoLewd extends Command {
 	}
 	
 	run(msg) {
-		if (!message.channel.nsfw) return message.channel.send('You can use this command in an NSFW Channel!')
-    superagent.get('https://nekos.life/api/v2/img/fox_girl')
+		if (!msg.channel.nsfw) return msg.channel.send('You can use this command in an NSFW Channel!')
+		superagent.get('https://nekos.life/api/v2/img/fox_girl')
         .end((err, response) => {
-			const lewdembed = new Discord.RichEmbed()
+			const lewdembed = new MessageEmbed()
 			.setTitle("Hentai")
 			.setImage(response.body.url)
 			.setColor(`#000000`)
