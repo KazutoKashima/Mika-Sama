@@ -34,14 +34,15 @@ module.exports = class ReportCommand extends Command {
             .addField("Time", message.createdAt)
             .addField("Reason", reason);
 
-			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`Hey there Admins! Someone reported a user!\n${reportEmbed}`);
+			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`Hey there Admins! Someone reported a user!`);
+			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`${reportEmbed}`);
 		
 			message.delete().catch(O_o => { });
 			message.say("I have reported the user to the admins! Please be patient while they review it!");
 		}
 		catch(error) {
 			console.error(error.stack);
-			message.say(`Sorry, ${message.author} but there was an error! Have you checked that you have a \`server-logs\` channel?\nIf so please contact Kazuto#2528 or get the support link with \`m!support\``)
+			message.say(`Sorry, ${message.author} but there was an error! Have you checked that you have a \`server-logs\` channel?\nIf so please contact Kuromei#4206 or get the support link with \`m!support\``)
 			
 		}
 	}
