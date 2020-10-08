@@ -12,12 +12,12 @@ Let me list a few!
 5. And your basic utilities!
 
 #### TO ADD:
-1. ~~Mute~~ ✅
+1. ~~Mute~~
 2. Interactive headpats
-3. Neko Catch game
-4. MongoDB Leveling => Current one gets reset after every update
-5. Reactable messages => There's a hidden thing in this ✅
-6. Reactable Welcome messages => there's a second hidden thing ✅
+3. Neko Catch game => currently debugging this one
+4. ~~MongoDB Leveling~~
+5. Reactable messages
+6. Reactable Welcome messages
 7. Dashboard for Mika-Sama
 
 -----------------------------------------------------
