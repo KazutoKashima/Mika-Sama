@@ -1,8 +1,8 @@
 ## Mika-Sama!!
-> Q) What is it? \
-A: Mika is a multipurpose bot for Discord with a unique personality and more than enough commands!
+##### Q) What is it?  
+ A: Mika is a multipurpose bot for Discord with a unique personality and more than enough commands!
 
-> Q) What can it do? \
+##### Q) What can it do? \
 A: Mika can do pretty much all of the basics that you would expect it to do, as well as more!
 Let me list a few!
 1. Administration
