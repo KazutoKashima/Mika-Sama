@@ -37,7 +37,7 @@ module.exports = class nekoLewd extends Command {
 			.setColor(`#000000`)
 			.setFooter(`Tags: fox girl`)
 			.setURL(response.body.url);
-			message.channel.send(lewdembed);
+			msg.channel.send(lewdembed);
 		})
 	}
 }

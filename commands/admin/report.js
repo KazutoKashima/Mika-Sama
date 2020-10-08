@@ -32,7 +32,7 @@ module.exports = class ReportCommand extends Command {
             .addField("Reported By", `${message.author} with ID: ${message.author.id}`)
             .addField("Channel", message.channel)
             .addField("Time", message.createdAt)
-            .addField("Reason", reason);
+            .addField("Reason", reason)
 			
 			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`${reportEmbed}`);
 			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`Hey there Admins! Someone reported a user!`);

@@ -37,7 +37,7 @@ module.exports = class hentaiGIFCommand extends Command {
 				.setColor(`#000000`)
 				.setFooter(`Tags: Hentai`)
 				.setURL(response.body.url)
-				msg.embed(hentaiEmbed);
+				msg.channel.send(hentaiEmbed);
 			})
 	}
 };
