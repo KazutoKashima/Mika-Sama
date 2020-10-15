@@ -5,7 +5,8 @@ const mongoEco = require('discord-mongodb-economy');
 module.exports = class LevelCreareCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'create',
+			name: 'start-level',
+			aliases: ['start', 'leveling', 'start lvl', 'strt-lvl', 'strt lvl'],
 			description: 'Adds you into the leveling system!!',
 			group: 'fun',
 			memberName: 'create',
