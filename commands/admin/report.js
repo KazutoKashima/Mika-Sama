@@ -26,13 +26,13 @@ module.exports = class ReportCommand extends Command {
 			let reason = args.join(' ');
 
 			let reportEmbed = new MessageEmbed()
-            .setDescription("Reports")
-            .setColor("#15f153")
-            .addField("Reported User", `${rUser} with ID: ${rUser.id}`)
-            .addField("Reported By", `${message.author} with ID: ${message.author.id}`)
-            .addField("Channel", message.channel)
-            .addField("Time", message.createdAt)
-            .addField("Reason", reason)
+				.setDescription("Reports")
+				.setColor("#15f153")
+				.addField("Reported User", `${rUser} with ID: ${rUser.id}`)
+				.addField("Reported By", `${message.author} with ID: ${message.author.id}`)
+				.addField("Channel", message.channel)
+				.addField("Time", message.createdAt)
+				.addField("Reason", reason);
 			
 			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`${reportEmbed}`);
 			message.member.guild.channels.cache.find(channel => channel.name === "server-logs").send(`Hey there Admins! Someone reported a user!`);
