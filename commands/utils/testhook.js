@@ -12,7 +12,7 @@ module.exports = class TestWebhookCommand extends Command {
             description: 'A WebHook tester',
         });
     }
-    run(msg) {
+    async run(msg) {
         if (msg.author.id != devID) return;
 
         const hookEmbed1 = MessageEmbed()
