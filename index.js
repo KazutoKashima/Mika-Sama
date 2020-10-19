@@ -37,7 +37,7 @@ const hour = 60 * minute;
 // bearer setup
 const Bearer = require('@bearer/node-agent');
 Bearer.init({
-        secretKey: 'app_8923adba94261832124741ec66bf3935344132e5994dbbfc51',
+        secretKey: '<your_bearer_key>',
         stripSensitiveData: true,
 }).then(() => {
         console.log('Bearer initialized!\n');
@@ -71,7 +71,7 @@ client.registry
 // If the client is ready
 client.on('ready', () => {
         client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
-		mongoEco.connectDatabase("mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority"); // this only needs to be called once!
+		mongoEco.connectDatabase("<you're_mongoDB_url>"); // this only needs to be called once!
         // Push client-related activities
         client.activities.push(
                 { text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
