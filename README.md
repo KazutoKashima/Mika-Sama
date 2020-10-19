@@ -21,7 +21,7 @@ Let me list a few!
 4. ~~MongoDB Leveling~~ <- Gotta patch this, stopped counting at some point.
 5. Reactable messages
 6. Reactable Welcome messages
-7. Dashboard for Mika-Sama
+7. Dashboard for Mika-Sama <- Post-poned for a bit
 
 -----------------------------------------------------
 
