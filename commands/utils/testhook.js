@@ -15,7 +15,7 @@ module.exports = class TestWebhookCommand extends Command {
     async run(msg) {
         if (msg.author.id != devID) return;
 
-        const hookEmbed1 = MessageEmbed()
+        const hookEmbed1 = new MessageEmbed()
             .setTitle("Test Webhook 1")
             .setColor("#0099ff")
         try {
