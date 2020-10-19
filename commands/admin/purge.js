@@ -10,7 +10,7 @@ module.exports = class HugCommand extends Command {
             group: 'admin',
             memberName: 'purge',
             description: 'purges a limit of 1-100 messages.',
-            clientPermissions: ['MANAGE_MESSAGES', 'SEND_MESSAGES', 'MANAGE_CHANNELS'],
+            clientPermissions: ['MANAGE_MESSAGES', 'SEND_MESSAGES', 'MANAGE_CHANNELS', 'ADMINISTRATOR'],
             //albumID: HUG_ALBUM_ID,
         });
     }
