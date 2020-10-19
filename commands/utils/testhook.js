@@ -17,7 +17,8 @@ module.exports = class TestWebhookCommand extends Command {
 
         const hookEmbed1 = new MessageEmbed()
             .setTitle("Test Webhook 1")
-            .setColor("#0099ff")
+            .setColor("#0099ff");
+
         try {
             const webhooks = msg.channel.fetchWebhooks();
             const webhook = webhooks.first();
