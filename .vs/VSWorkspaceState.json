@@ -1,7 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\assets",
+    "\\assets\\json",
+    "\\commands",
+    "\\commands\\fun",
+    "\\commands\\roleplay",
+    "\\structures",
+    "\\structures\\commands",
+    "\\types",
+    "\\util"
   ],
-  "SelectedNode": "\\errors.js",
+  "SelectedNode": "\\index.js",
   "PreviewInSolutionExplorer": false
 }

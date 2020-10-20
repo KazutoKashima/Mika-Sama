@@ -112,20 +112,15 @@ client.on('message', async (msg, reaction, user) => {
             }
         }, 2 * hour);
         randomthing;
-		/*Mika trynna defend herself
-		if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.(`Mika youre dysfunctional`)) {
-			msg.channel.send("No I'm not!").then(setTimeout(function () {
-				if (msg.content === `Yes you are` && msg.author.id === owner) {
-								msg.channel.send(`ISTG! <@!${owner}> I'm not dysfunctional :sob:`);
-				} else if (msg.content === `Yes you are` && newMsg.author.id !== owner) {
-						newMsg.send(`:sob:\nYou think I'm dysfunctional too, <@!${newMsg.author.id}?`)
-						if(rMsg.content.toLowerCase() === "Yep") {
-								rMsg.channel.send("I'm sad now... :cry:");
-						}
-				}
-			}),1 * 1000)
-		}*/
 
+		//Mika trynna defend herself
+		if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.(`Mika youre dysfunctional`)) {
+            msg.channel.send("I will haunt you if you keep calling me that 😭");
+		}
+
+        if (msg.content.includes("🎃") || msg.content.includes("🥧")) {
+            msg.channel.send("HUh! I wanted that...😦... no fair *hmph*");
+        }
         //  music stuff
         const serverQueue = queue.get(msg.guild.id);
 
@@ -284,9 +279,9 @@ client.on("guildMemberAdd", (member) => {
     let wGif = welcomeGif[Math.floor(Math.random * welcomeGif.length)];
     // embed stuff
     let welcomeEmbed = new MessageEmbed()
-        .setColor('#ffffff')
+        .setColor('#FF4500')
         .setTitle("Someone joined!!!")
-        .setDescription(`Lets say "Hello" to ${member}!\nWe hope they enjoy their stay with us!!`)
+        .setDescription(`🦇 Lets give a spoopy "Hello" to ${member}!\nWe hope they enjoy their stay with us!! 🦇`)
         .setImage(wGif)
         .setTimestamp()
         .setThumbnail(`${guild.iconURL()}`)
@@ -320,8 +315,7 @@ client.on("guildMemberAdd", (member) => {
                         }
                     })
                     .catch(collected => {
-                        // Do nothing cause it's a secret!
-                        return;
+                        message.channel.send("*I thought I saw something? Must just be me...*");
                     });
 
                 newUsers[guild.id].clear();
@@ -341,9 +335,9 @@ client.on('guildMemberRemove', member => {
     if (guild.id === "756031414616719430") {
         try {
             let leaveEmbed = new MessageEmbed()
-                .setColor('#ffffff')
+                .setColor('#ff4500')
                 .setTitle("Someone left!")
-                .setDescription(`Lets say "Goodbye" to ${member}!\nWe hope they enjoyed their stay!`)
+                .setDescription(`🎃 Lets say "Goodbye" to ${member}!\nWe hope they enjoyed their stay! 👻`)
                 .setTimestamp()
                 .setThumbnail(`${guild.iconURL()}`)
             const channel = member.guild.channels.cache.find(ch => ch.id === '756046044218916884');
