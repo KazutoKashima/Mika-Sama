@@ -114,7 +114,7 @@ client.on('message', async (msg, reaction, user) => {
         randomthing;
 
 		//Mika trynna defend herself
-		if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.(`Mika youre dysfunctional`)) {
+		if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
             msg.channel.send("I will haunt you if you keep calling me that 😭");
 		}
 
@@ -138,6 +138,11 @@ client.on('message', async (msg, reaction, user) => {
             stop(msg, serverQueue);
             return;
         }
+        client.on("messageReactionAdd", async (msg, reaction, user) => {
+            if (msg.reaction.id === "767894599602929665") {
+                msg.channel.send("OwO A pumpkin pie! gimme! *grabby grabby*");
+            }
+        });
     } catch (error) {
         console.log(error.stack);
     }
