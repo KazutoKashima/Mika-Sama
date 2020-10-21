@@ -4,13 +4,9 @@
     "\\assets",
     "\\assets\\json",
     "\\commands",
-    "\\commands\\fun",
-    "\\commands\\roleplay",
-    "\\structures",
-    "\\structures\\commands",
-    "\\types",
-    "\\util"
+    "\\commands\\utils",
+    "\\structures\\commands"
   ],
-  "SelectedNode": "\\index.js",
+  "SelectedNode": "\\commands\\utils\\dashboard.js",
   "PreviewInSolutionExplorer": false
 }

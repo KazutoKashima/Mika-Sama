@@ -1,4 +1,3 @@
-'use strict';
 // .env stuff
 require('dotenv').config(); // .env register
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
@@ -42,6 +41,7 @@ Bearer.init({
 }).then(() => {
     console.log('Bearer initialized!\n');
 });
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // client command registry
@@ -54,12 +54,12 @@ client.registry
         ['admin', 'Admin'],
         ['fun', 'Fun'],
         ["auto", "Auto"],
-        ["nsfw", "NSFW"],
+        ['owner', "Owner"],
     ])
     .registerDefaultGroups()
     .registerDefaultCommands({
         ping: true,
-        reload: true,
+        reload: false,
         prefix: false,
         help: false,
         unknownCommand: false
@@ -99,6 +99,7 @@ client.on('message', async (msg, reaction, user) => {
         var randomXP = Math.floor(Math.random() * 49) + 1;
         randomXP;
         var hasLevelUp = await mongoEco.attributeXp(msg.member.id, msg.guild.id, randomXP);
+        hasLevelUp;
         if (hasLevelUp) {
             // fetch the member
             // return false if no member entry
@@ -114,7 +115,7 @@ client.on('message', async (msg, reaction, user) => {
         randomthing;
 
 		//Mika trynna defend herself
-		if (msg.content.includes(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
+		if (msg.content.startsWith(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
             msg.channel.send("I will haunt you if you keep calling me that 😭");
 		}
 
