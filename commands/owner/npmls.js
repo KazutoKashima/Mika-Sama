@@ -6,7 +6,7 @@ function npmls(cb) {
 }
 
 const MessageEmbed = require('discord.js');
-const { Command } = require('discord.js-command');
+const { Command } = require('discord.js-commando');
 // .env stuff
 require('dotenv').config(); // .env register
 const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
