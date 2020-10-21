@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
 const MessageEmbed = require('discord.js');
+const Discord = require('discord.js')
 
 module.exports = class DashboardCommand extends Command {
     constructor(client) {
@@ -13,7 +14,7 @@ module.exports = class DashboardCommand extends Command {
     }
 
     run(message) {
-        dashboardEmbed = new MessageEmbed()
+        let dashboardEmbed = new MessageEmbed()
             .setTitle('My Dashboard')
             .setDescription('Sure thing! [192.168.0.155:3000/](Here it is!)')
             .setColor(white)

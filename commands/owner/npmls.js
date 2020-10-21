@@ -9,8 +9,7 @@ const MessageEmbed = require('discord.js');
 const { Command } = require('discord.js-commando');
 // .env stuff
 require('dotenv').config(); // .env register
-const { TOKEN, OWNERS, PREFIX, INVITE } = process.env;
-const owner = OWNERS.split(',');
+const owner = '286957313489764353';
 
 module.exports = class NPMModulesCommand extends Command {
 	constructor(client) {
