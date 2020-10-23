@@ -1,4 +1,5 @@
-## Mika-Sama!!
+## Mika-Sama!!  
+*Please note that not all functions within this Git will be functional and you will have to make edits to the mongoDB, bearer and .env for it to work at a base level*  
 ##### Q) What is it?  
  A: Mika is a multipurpose bot for Discord with a unique personality and more than enough commands!
 
@@ -16,11 +17,11 @@ Let me list a few!
 #### TO ADD:
 1. ~~Mute~~
 2. Interactive headpats
-3. Neko Catch game => currently debugging this one
-4. ~~MongoDB Leveling~~
+3. Neko Catch game <- currently debugging this one
+4. ~~MongoDB Leveling~~ <- Gotta patch this, stopped counting at some point.
 5. Reactable messages
 6. Reactable Welcome messages
-7. Dashboard for Mika-Sama
+7. Dashboard for Mika-Sama <- Post-poned for a bit
 
 -----------------------------------------------------
 

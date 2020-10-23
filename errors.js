@@ -1,4 +1,3 @@
-
 const Discord = require("discord.js");
 const fs = require("fs");
 let config = require("../botconfig.json");
@@ -14,7 +13,6 @@ module.exports.noPerms = (message, perm) => {
 }
 
 module.exports.equalPerms = (message, user, perms) => {
-
     let embed = new Discord.MessageEmbed
         .setAuthor(message.author.username)
         .setColor(config.red)
@@ -22,7 +20,6 @@ module.exports.equalPerms = (message, user, perms) => {
         .addField(`${user} has perms`, perms);
 
     message.channel.send(embed).then(m => m.delete(5000));
-
 }
 
 module.exports.botuser = (message) => {
