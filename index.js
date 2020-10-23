@@ -15,12 +15,12 @@ const sqlite = require('sqlite');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
 const Client = require('./structures/Client');
 const client = new Client({
-    commandPrefix: PREFIX,
-    owner: OWNERS.split(','),
-    invite: INVITE,
-    disableMentions: 'everyone',
-    ws: { intents: Intents.ALL },
-    unknownCommandResponse: false,
+commandPrefix: PREFIX,
+owner: OWNERS.split(','),
+invite: INVITE,
+disableMentions: 'everyone',
+ws: { intents: Intents.ALL },
+unknownCommandResponse: false,
 });
 
 // other stuff
@@ -36,50 +36,47 @@ const hour = 60 * minute;
 const Bearer = require('@bearer/node-agent');
 const { mongo } = require('mongoose');
 Bearer.init({
-        secretKey: '<your_bearer_key>',
-        stripSensitiveData: true,
+    secretKey: '<your_bearer_key>',
+    stripSensitiveData: true,
 }).then(() => {
-    console.log('Bearer initialized!\n');
+console.log('Bearer initialized!\n');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // client command registry
 client.registry
-    .registerDefaultTypes()
-    .registerGroups([
-        ['roleplay', 'Roleplay'],
-        ['utils', 'Utils'],
-        ['economy', 'Economy'],
-        ['admin', 'Admin'],
-        ['fun', 'Fun'],
-        ["auto", "Auto"],
-        ['owner', "Owner"],
-    ])
-    .registerDefaultGroups()
-    .registerDefaultCommands({
-        ping: true,
-        reload: false,
-        prefix: false,
-        help: false,
-        unknownCommand: false
-    })
-    .registerCommandsIn(path.join(__dirname, 'commands'));
+.registerDefaultTypes()
+.registerGroups([
+    ['roleplay', 'Roleplay'],
+    ['utils', 'Utils'],
+    ['economy', 'Economy'],
+    ['admin', 'Admin'],
+    ['fun', 'Fun'],
+    ["auto", "Auto"],
+    ['owner', "Owner"],
+])
+.registerDefaultGroups()
+.registerDefaultCommands({
+    ping: true,
+    reload: false,
+    prefix: false,
+    help: false,
+    unknownCommand: false
+})
+.registerCommandsIn(path.join(__dirname, 'commands'));
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 // If the client is ready
-client.on('ready', async () => {
-
-// If the client is ready
 client.on('ready', () => {
-        client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
-		mongoEco.connectDatabase("<you're_mongoDB_url>"); // this only needs to be called once!
-        // Push client-related activities
-        client.activities.push(
-                { text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
-                { text: () => `with ${formatNumber(client.registry.commands.size)} commands`, type: 'PLAYING' },
-                { text: () => `${formatNumber(client.channels.cache.size)} channels`, type: 'WATCHING' }
-        );
+    client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
+    mongoEco.connectDatabase("<you're_mongoDB_url>"); // this only needs to be called once!
+    // Push client-related activities
+    client.activities.push(
+        { text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
+        { text: () => `with ${formatNumber(client.registry.commands.size)} commands`, type: 'PLAYING' },
+        { text: () => `${formatNumber(client.channels.cache.size)} channels`, type: 'WATCHING' }
+    );
 
     // Interval to change activity every minute
     client.setInterval(() => {
@@ -106,9 +103,9 @@ client.on('message', async (msg, reaction, user) => {
         if (!msg.channel.permissionsFor(msg.guild.me).has("SEND_MESSAGES")) return;
 
         var randomXP = Math.floor(Math.random() * 49) + 1;
-        
+
         var hasLevelUp = await mongoEco.attributeXp(msg.member.id, msg.guild.id, randomXP);
-        
+
         if (hasLevelUp) {
             // fetch the member
             // return false if no member entry
@@ -116,10 +113,10 @@ client.on('message', async (msg, reaction, user) => {
             msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
         }
 
-		//Mika trynna defend herself
-		if (msg.content.startsWith(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
+        //Mika trynna defend herself
+        if (msg.content.startsWith(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
             msg.channel.send("I will haunt you if you keep calling me that 😭");
-		}
+        }
 
         //  music stuff
         const serverQueue = queue.get(msg.guild.id);
