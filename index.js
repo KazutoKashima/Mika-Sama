@@ -9,7 +9,7 @@ const queue = new Map();
 
 // database stuff
 //const db = require('quick.db');
-const mongoEco = require('discord-mongodb-economy');
+//const mongoEco = require('discord-mongodb-economy');
 
 const sqlite = require('sqlite');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
