@@ -95,14 +95,14 @@ client.on('message', async (msg, reaction, user) => {
 
         var randomXP = Math.floor(Math.random() * 49) + 1;
 
-        var hasLevelUp = await mongoEco.attributeXp(msg.member.id, msg.guild.id, randomXP);
+        //var hasLevelUp = await mongoEco.attributeXp(msg.member.id, msg.guild.id, randomXP);
 
-        if (hasLevelUp) {
+        //if (hasLevelUp) {
             // fetch the member
             // return false if no member entry
-            let member = await mongoEco.fetchMember(msg.member.id, msg.guild.id)
-            msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
-        }
+            //let member = await mongoEco.fetchMember(msg.member.id, msg.guild.id)
+            :/msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
+       // }
 
         //Mika trynna defend herself
         if (msg.content.startsWith(`Mika you're dsyfunctional`) || msg.content.includes(`Mika youre dysfunctional`)) {
@@ -227,7 +227,7 @@ function play(guild, song) {
 client.on('disconnect', async event => {
     client.logger.error(`[DISCONNECT] Disconnected with code ${event.code}`);
     //client.exportCommandLeaderboard();
-    await mongoEco.disconnectDatabase();
+   // await mongoEco.disconnectDatabase();
     process.exit(0);
 });
 
