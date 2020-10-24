@@ -101,7 +101,7 @@ client.on('message', async (msg, reaction, user) => {
             // fetch the member
             // return false if no member entry
             //let member = await mongoEco.fetchMember(msg.member.id, msg.guild.id)
-            :/msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
+            //msg.channel.send(`${msg.member}, congratulations! you have reached level ${member.level}! Great Job!`);
        // }
 
         //Mika trynna defend herself
