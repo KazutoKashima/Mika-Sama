@@ -16,9 +16,9 @@ module.exports = class LevelCommand extends Command {
 	}
 	
 	async run(msg) {
-		let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
-		let member = await mongoEco.fetchMember(mention.id, msg.guild.id);
-		if (!member) return msg.channel.send("You haven't earned any xp or level...")
-		msg.channel.send(`You have ${member.xp} points and you are at level ${member.level}.`)
+		//let mention = msg.mentions.members.first() ? msg.mentions.members.first() : msg.member;
+		//let member = await mongoEco.fetchMember(mention.id, msg.guild.id);
+		//if (!member) return msg.channel.send("You haven't earned any xp or level...")
+		msg.channel.send(`sorry but this command is undergoing a rework, it should be ready soon!`)
 	}
 }
