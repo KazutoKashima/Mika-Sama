@@ -14,9 +14,9 @@ module.exports = class LevelCreareCommand extends Command {
 			guildOnly: true,
 		});
 	}
-	async run (msg) {
-		let deleted = await mongoEco.deleteMember(msg.member.id, msg.guild.id);
-		console.log(deleted);
-		msg.reply(`Aww, Ok, removing you from the database...done... :(`);
+	async run(msg) {
+		//let deleted = await mongoEco.deleteMember(msg.member.id, msg.guild.id);
+		//console.log(deleted);
+		msg.reply(`sorry but this command is undergoing a rework, it should be ready soon!`);
 	}
 }

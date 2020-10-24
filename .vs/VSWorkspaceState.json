@@ -1,7 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\assets",
+    "\\assets\\json",
+    "\\commands",
+    "\\commands\\utils",
+    "\\structures\\commands"
   ],
+<<<<<<< HEAD
   "SelectedNode": "\\index.js",
+=======
+  "SelectedNode": "\\commands\\utils\\dashboard.js",
+>>>>>>> a0d930484bf6e8cc57065f11843464f74e73aacb
   "PreviewInSolutionExplorer": false
 }
