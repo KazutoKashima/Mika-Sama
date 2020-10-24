@@ -29,14 +29,15 @@ module.exports = class LevelCreareCommand extends Command {
     }
 
     async run(msg) {
-        let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
-        let data = await mongoEco.convertLeaderBoard(client, raw);
+        //let raw = await mongoEco.getLeaderBoard(msg.guild.id, 10);
+        //let data = await mongoEco.convertLeaderBoard(client, raw);
 
-        let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
-        let lbEmbed = new MessageEmbed()
+        //let leaderboard = data.map(e => `${e.position}. ${e.membername}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toLocaleString()}\n`);
+        /*let lbEmbed = new MessageEmbed()
             .addField(`${msg.guild.name}'s Leaderboard!`, `${leaderboard}`)
             .setColor("#ff0e6")
             .setTimestamp()
-        msg.embed(lbEmbed);
+        msg.embed(lbEmbed); */
+        msg.reply(`sorry but this command is undergoing a rework, it should be ready soon!`);
     }
 }
