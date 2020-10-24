@@ -17,8 +17,8 @@ module.exports = class LevelCreareCommand extends Command {
 	}
 	
 	async run (msg) {
-		let created = await mongoEco.createMember(msg.member.id, msg.guild.id)
-		console.log(created);
-		msg.reply(`Yay! you can now start leveling!`);
+		//let created = await mongoEco.createMember(msg.member.id, msg.guild.id)
+		//console.log(created);
+		msg.reply(`sorry but this command is undergoing a rework, it should be ready soon!`);
 	}
 }
