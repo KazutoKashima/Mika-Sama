@@ -8,7 +8,7 @@ const ffmpeg = require("ffmpeg-static");
 const queue = new Map();
 
 // database stuff
-const db = require('quick.db');
+//const db = require('quick.db');
 const mongoEco = require('discord-mongodb-economy');
 
 const sqlite = require('sqlite');
