@@ -66,4 +66,5 @@ module.exports = class NekoGame extends Command {
 		}
 	}*/
 		msg.reply("Sorry but this command is undergoing a rework, this shoudl be finished soon!");
+	}
 }
