@@ -26,7 +26,7 @@ module.exports = class NPMModulesCommand extends Command {
 
 		try {
 			if (msg.author.id === owner) {
-				msg.reply(`Sure thing! Here are my packages! \n ${npmls}`);
+				msg.reply(`Sure thing! Here are my packages! \n ${npmls(cb)}`);
 			} else {
 				message.channel.send("Sorry but I can't do that for some reason... :frown:");
             }
