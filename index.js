@@ -9,7 +9,7 @@ const queue = new Map();
 
 // database stuff
 //const db = require('quick.db');
-//const mongoEco = require('discord-mongodb-economy');
+const mongoEco = require('discord-mongodb-economy');
 
 const sqlite = require('sqlite');
 const { Intents, MessageEmbed, Collection } = require('discord.js');
@@ -61,7 +61,7 @@ client.registry
 // If the client is ready
 client.on('ready', () => {
 	client.logger.info(`[READY] Logged in as ${client.user.tag}! ID: ${client.user.id}`);
-	//mongoEco.connectDatabase("<you're_mongoDB_url>"); // this only needs to be called once!
+	mongoEco.connectDatabase("mongodb+srv://Kuromei:Pr321004@cluster0.ou5bm.mongodb.net/MikaSama?retryWrites=true&w=majority"); // this only needs to be called once!
 	// Push client-related activities
 	client.activities.push(
 		{ text: () => `${formatNumber(client.guilds.cache.size)} servers`, type: 'WATCHING' },
@@ -227,7 +227,7 @@ function play(guild, song) {
 client.on('disconnect', async event => {
 	client.logger.error(`[DISCONNECT] Disconnected with code ${event.code}`);
 	//client.exportCommandLeaderboard();
-	// await mongoEco.disconnectDatabase();
+	await mongoEco.disconnectDatabase();
 	process.exit(0);
 });
 

@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const db = require('quick.db');
 const ms = require("parse-ms");
+const mongoEco = require('discord-mongodb-economy');
 
 module.exports = class DeposCommand extends Command {
 	constructor(client) {
@@ -12,14 +13,6 @@ module.exports = class DeposCommand extends Command {
 			memberName: 'work',
 			description: 'work for money!',
 			clientPermissions: ['ATTACH_FILES'],
-			//albumID: KILL_ALBUM_ID,
-			/**args: [
-				{
-					key: 'user',
-					prompt: 'What user do you want to ban?',
-					type:'user'
-				}
-			]*/
 		});
 	}
 	async run(message) {
@@ -47,8 +40,7 @@ module.exports = class DeposCommand extends Command {
 			.setDescription(`:white_check_mark: You worked as a ${replies[result]} and earned ${amount} :cookie:s!`)
 			message.embed(embed1);
 			
-			db.add(`money_${message.guild.id}_${user.id}`, amount)
-			db.set(`work_${message.guild.id}_${user.id}`, Date.now())
+			var moneyAdd = await mongoEco.attributeXp(msg.member.id, msg.guild.id, amount)
 		}
 	}
 }
